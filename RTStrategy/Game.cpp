@@ -20,6 +20,8 @@ bool Game::load(SDL_Renderer* gRenderer)
 	//Calculate time step
 	timeStep = stepTimer.getTicks() / 1000.f;
 
+	l = Lasso();
+
 	ug = UnitGroup(gRenderer);
 	ug.load(gRenderer);
 
@@ -54,6 +56,7 @@ bool Game::input(SDL_Renderer* gRenderer, bool quit)
 			/*car.handleEvent(e, timeStep);
 			car2.handleEvent(e, timeStep);*/
 			ug.handleEvent(e);
+			l.handleEvent(e);
 
 		}
 	}
@@ -70,7 +73,9 @@ void Game::update()
 	//car.move(timeStep);
 	//car.isCollided(tilesA.isCollide(car.getCollider()));
 	//car2.move(timeStep);
-	//car2.isCollided(tilesA.isCollide(car2.getCollider()));
+	//car2.isCollided(tilesA.isCollide(car2.getCollider()));0
+	select = l.getSelection();
+	ug.selectUnit(select);
 	ug.move(timeStep);
 
 	//Restart step timer
@@ -83,6 +88,7 @@ void Game::draw(SDL_Renderer* gRenderer)
 	//car2.render(gRenderer);
 	//tilesA.render(gRenderer);
 	ug.render(gRenderer);
+	l.render(gRenderer);
 }
 
 void Game::initGame()

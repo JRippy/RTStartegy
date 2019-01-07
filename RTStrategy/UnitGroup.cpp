@@ -80,8 +80,11 @@ void UnitGroup::mousePress(SDL_MouseButtonEvent& b) {
 		for (size_t i = 0; i < c.getNumUnit(); i++)
 		{
 			Unit& u = vUnit[i];
-			u.setUPosToX((float)x);
-			u.setUPosToY((float)y);
+			if (u.getSelected())
+			{
+				u.setUPosToX((float)x);
+				u.setUPosToY((float)y);
+			}
 
 		}
 
@@ -94,6 +97,49 @@ void UnitGroup::move(float timeStep)
 	{
 		Unit& u = vUnit[i];
 		u.move(timeStep);
+	}
+}
+
+void UnitGroup::selectUnit(SDL_Rect rect)
+{
+	SDL_Rect r;
+	int x, y, h, w;
+
+	x = rect.x;
+	y = rect.y;
+	h = rect.h;
+	w = rect.w;
+
+	if ( w < 0 )
+	{
+		x = rect.x + rect.w;
+		w = rect.w * -1;
+	}
+
+	if ( h < 0)
+	{
+		y = rect.y + rect.h;
+		h = rect.h * -1;
+	}
+
+	r.x = x;
+	r.y = y;
+	r.h = h;
+	r.w = w;
+
+	for (size_t i = 0; i < c.getNumUnit(); i++)
+	{
+		Unit& u = vUnit[i];
+		if (u.isInSelection(r) == true || u.getIsMoving() == true)
+		{
+			printf("Select or Move : %d, %d\n", u.isInSelection(r), u.getIsMoving());
+			printf("Selection : %d, %d, %d, %d\n", r.x, r.y, r.h, r.w);
+			u.setSelected(true);
+		}
+		else
+		{
+			u.setSelected(false);
+		}
 	}
 }
 

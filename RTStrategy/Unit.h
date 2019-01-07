@@ -21,6 +21,14 @@ public:
 
 	void setUPosToX(float f);
 	void setUPosToY(float f);
+	
+	float getIsMoving();
+
+	float getSelected();
+
+	void setSelected(bool b);
+
+	bool isInSelection(SDL_Rect r);
 
 	float randomFloat(float a, float b);
 
@@ -41,6 +49,9 @@ private:
 
 	//Dead Flag
 	bool iDead;
+
+	bool isSelected;
+	bool isMoving;
 
 	//Loaded
 	bool Loaded;

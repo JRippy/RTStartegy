@@ -7,7 +7,9 @@ Unit::Unit()
 }
 
 
-Unit::Unit(SDL_Renderer * gRenderer)
+Unit::Unit(SDL_Renderer * gRenderer) :
+	isSelected(false),
+	isMoving(false)
 {
 	loadMediaUnit(gRenderer);
 	reset();
@@ -57,6 +59,35 @@ void Unit::setUPosToY(float f)
 	toY = f;
 }
 
+float Unit::getIsMoving()
+{
+	return isMoving;
+}
+
+float Unit::getSelected()
+{
+	return isSelected;
+}
+
+void Unit::setSelected(bool b)
+{
+	isSelected = b;
+}
+
+bool Unit::isInSelection(SDL_Rect r)
+{
+	bool b = false;
+
+	if (r.x <= uPosX && r.x + r.w >= uPosX)
+	{
+		if (r.y <= uPosY && r.y + r.h >= uPosY)
+		{
+			b = true;
+		}
+	}
+	return b;
+}
+
 float Unit::randomFloat(float a, float b)
 {
 	float random = ((float)rand()) / (float)RAND_MAX;
@@ -82,9 +113,9 @@ bool Unit::loadMediaUnit(SDL_Renderer * gRenderer)
 
 void Unit::move(float timeStep)
 {
-
 	if (uPosX != toX + offSetX)
 	{	
+		isMoving = true;
 		//TODO
 		//float xAng = toX - uPosX + offSetX;
 		//float yAng = toY - uPosY + offSetY;
@@ -101,14 +132,19 @@ void Unit::move(float timeStep)
 			uPosX += c.getVelUnit() * timeStep;
 		}
 
-		if (fabs(uPosX - toX + offSetX) < 2.0f)
+		if (fabs(uPosX - toX + offSetX) <= 0.5f)
 		{
-			toX = uPosX - offSetX;
+			uPosX = toX + offSetX;
 		}
+	}
+	else
+	{
+		isMoving = false;
 	}
 
 	if (uPosY != toY + offSetY)
 	{
+		isMoving = true;
 		//TODO
 		//float tan = atan2(uPosY, toY + offSetY);
 		//uPosY = tan;
@@ -122,10 +158,14 @@ void Unit::move(float timeStep)
 			uPosY += c.getVelUnit() * timeStep;
 		}
 
-		if (fabs(uPosY - toY + offSetY) < 2.0f)
+		if (fabs(uPosY - toY + offSetY) <= 0.5f)
 		{
-			toY = uPosY - offSetY;
+			uPosY = toY + offSetY;
 		}
+	}
+	else
+	{
+		isMoving = false;
 	}
 }
 
@@ -137,7 +177,24 @@ void Unit::render(SDL_Renderer* gRenderer)
 		//Loaded = false;
 	}
 
+	if (getSelected() == true)
+	{
+		SDL_Rect lasso;
+
+		lasso.x = uPosX - 1;
+		lasso.y = uPosY - 1;
+		lasso.w = c.getUnitWidth() + 2;
+		lasso.h = c.getUnitHeight() + 2;
+
+		//printf("Lasso : %f, %f, %f, %f\n", xStart, yStart, xEnd, yEnd);
+
+		//Render rext
+		SDL_SetRenderDrawColor(gRenderer, 255, 255, 255, 255);
+		SDL_RenderDrawRect(gRenderer, &lasso);
+	}
+
 	unitTexture.render((int)uPosX, (int)uPosY, gRenderer);
+
 }
 
 void Unit::reset()

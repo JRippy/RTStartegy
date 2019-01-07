@@ -1,6 +1,7 @@
 #include "Texture.h"
 #include "Timer.h"
 #include "UnitGroup.h"
+#include "Lasso.h"
 #include "Config.h"
 
 #include <string>
@@ -33,6 +34,8 @@ private:
 	Texture gInputTextTexture;
 
 	UnitGroup ug;
+	Lasso l;
+	SDL_Rect select;
 
 	//Set text color as White
 	SDL_Color textColor;

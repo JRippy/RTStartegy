@@ -21,6 +21,8 @@ public:
 
 	void move(float timeStep);
 
+	void selectUnit(SDL_Rect rect);
+
 	void render(SDL_Renderer* gRenderer);
 
 };
