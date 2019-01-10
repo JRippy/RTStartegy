@@ -171,8 +171,6 @@ void TilesArray::desactivateTile(int i)
 
 bool TilesArray::isActiv(int k)
 {
-	printf("Error Out : %d", k);
-	printf("Error Out : %d", vTiles.size());
 	return vTiles[k].visible;
 }
 

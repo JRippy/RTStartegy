@@ -3,7 +3,10 @@
 #define Y_MAX 800
 #define Y_STEP 80
 
+#include <vector>
 #include <iostream>
+
+#include "TilesArray.h"
 
 #pragma once
 
@@ -28,5 +31,11 @@ class APathFinding
 public:
 	APathFinding();
 	~APathFinding();
+
+	static TilesArray ta;
+
+	static bool isValid(int x, int y);
+
+	//static bool isDestination(int x, int y, Node dest);
 };
 

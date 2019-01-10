@@ -1,9 +1,10 @@
 #include "pch.h"
 #include "APathFinding.h"
 
-
 APathFinding::APathFinding()
 {
+	ta = TilesArray();
+	ta.load();
 }
 
 
@@ -13,7 +14,12 @@ APathFinding::~APathFinding()
 
 static bool isValid(int x, int y) { //If our Node is an obstacle it is not valid
 	int id = x + y * (X_MAX / X_STEP);
-	if (world.obstacles.count(id) == 0) {
+
+	static TilesArray ta;
+	ta = TilesArray();
+	ta.load();
+
+	if (ta.isActiv(id)) {
 		if (x < 0 || y < 0 || x >= (X_MAX / X_STEP) || y >= (Y_MAX / Y_STEP)) {
 			return false;
 		}
@@ -35,15 +41,15 @@ static double calculateH(int x, int y, Node dest) {
 	return H;
 }
 
-static vector<Node> aStar(Node player, Node dest) {
-	vector<Node> empty;
+static std::vector<Node> aStar(Node player, Node dest) {
+	std::vector<Node> empty;
 	if (isValid(dest.x, dest.y) == false) {
-		cout << "Destination is an obstacle" << endl;
+		printf("Destination is an obstacle");
 		return empty;
 		//Destination is invalid
 	}
 	if (isDestination(player.x, player.y, dest)) {
-		cout << "You are the destination" << endl;
+		printf("You are the destination");
 		return empty;
 		//You clicked on yourself
 	}
@@ -51,7 +57,7 @@ static vector<Node> aStar(Node player, Node dest) {
 
 	//Initialize whole map
 	//Node allMap[50][25];
-	array<array < Node, (Y_MAX / Y_STEP)>, (X_MAX / X_STEP)> allMap;
+	std::array<std::array < Node, (Y_MAX / Y_STEP)>, (X_MAX / X_STEP)> allMap;
 	for (int x = 0; x < (X_MAX / X_STEP); x++) {
 		for (int y = 0; y < (Y_MAX / Y_STEP); y++) {
 			allMap[x][y].fCost = FLT_MAX;
@@ -75,7 +81,7 @@ static vector<Node> aStar(Node player, Node dest) {
 	allMap[x][y].parentX = x;
 	allMap[x][y].parentY = y;
 
-	vector<Node> openList;
+	std::vector<Node> openList;
 	openList.emplace_back(allMap[x][y]);
 	bool destinationFound = false;
 
@@ -88,8 +94,8 @@ static vector<Node> aStar(Node player, Node dest) {
 			//it with a vector, but for now it's still an option, although
 			//not as good as a set performance wise.
 			float temp = FLT_MAX;
-			vector<Node>::iterator itNode;
-			for (vector<Node>::iterator it = openList.begin();
+			std::vector<Node>::iterator itNode;
+			for (std::vector<Node>::iterator it = openList.begin();
 				it != openList.end(); it = next(it)) {
 				Node n = *it;
 				if (n.fCost < temp) {
@@ -141,18 +147,18 @@ static vector<Node> aStar(Node player, Node dest) {
 		}
 	}
 	if (destinationFound == false) {
-		cout << "Destination not found" << endl;
+		printf("Destination not found");
 		return empty;
 	}
 }
 
-static vector<Node> makePath(array<array<Node, (Y_MAX / Y_STEP)>, (X_MAX / X_STEP)> map, Node dest) {
+static std::vector<Node> makePath(std::array<std::array<Node, (Y_MAX / Y_STEP)>, (X_MAX / X_STEP)> map, Node dest) {
 	try {
-		cout << "Found a path" << endl;
+		printf("Found a path");
 		int x = dest.x;
 		int y = dest.y;
 		stack<Node> path;
-		vector<Node> usablePath;
+		std::vector<Node> usablePath;
 
 		while (!(map[x][y].parentX == x && map[x][y].parentY == y)
 			&& map[x][y].x != -1 && map[x][y].y != -1)
@@ -174,6 +180,6 @@ static vector<Node> makePath(array<array<Node, (Y_MAX / Y_STEP)>, (X_MAX / X_STE
 		return usablePath;
 	}
 	catch (const exception& e) {
-		cout << e.what() << endl;
+		printf(e.what());
 	}
 }
