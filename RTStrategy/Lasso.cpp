@@ -36,6 +36,24 @@ SDL_Rect Lasso::getSelection()
 void Lasso::handleEvent(SDL_Event & e)
 {
 	//If a key was pressed
+	//if (e.key.keysym.mod && KMOD_LCTRL && e.key.keysym.mod == KMOD_LCTRL)
+	//{
+	//	/*if (e.type == SDL_MOUSEBUTTONDOWN)
+	//	{*/
+	//		printf("CTRL_L\n");
+	//	//}
+	//}
+
+	if (e.key.keysym.mod && KMOD_LCTRL && e.key.keysym.mod == KMOD_LCTRL)
+	{
+		printf("CTRL\n");
+			if (e.type == SDL_MOUSEBUTTONDOWN)
+			{
+				mousePress(e.button);
+			}
+	}
+
+
 	if (e.type == SDL_MOUSEBUTTONDOWN && press == false)
 	{
 		mousePress(e.button);
@@ -67,29 +85,20 @@ void Lasso::mousePress(SDL_MouseButtonEvent& b) {
 		{
 			x = 0;
 		}
-		//else if (mPosX > c.getScreenWidth() - (c.getRacketWidth() / 2) || x > c.getScreenWidth() - (c.getRacketWidth() / 2))
-		//{
-		//	mPosX = (float)c.getScreenWidth() - (float)c.getRacketWidth() / 2;
-		//}
 		else if (x < c.getScreenWidth() && x > 0)
 		{
 			//Adjust position
-			x = (float)x - c.getUnitWidth() / 2;
-			//move(timeStep);
+			x = (float)x;
 		}
 
 		if (y <= 0)
 		{
 			y = 0;
 		}
-		//else if (mPosy > c.getScreenWidth() - (c.getRacketWidth() / 2) || y > c.getScreenWidth() - (c.getRacketWidth() / 2))
-		//{
-		//	mPosy = (float)c.getScreenWidth() - (float)c.getRacketWidth() / 2;
-		//}
 		else if (y < c.getScreenHeight() && y > 0)
 		{
 			//Adjust position
-			y = (float)y - c.getUnitHeight() / 2;
+			y = (float)y;
 			//move(timeStep);
 		}
 
@@ -109,30 +118,20 @@ void Lasso::mouseDown(SDL_MouseButtonEvent & b)
 		{
 			x = 0;
 		}
-		//else if (mPosX > c.getScreenWidth() - (c.getRacketWidth() / 2) || x > c.getScreenWidth() - (c.getRacketWidth() / 2))
-		//{
-		//	mPosX = (float)c.getScreenWidth() - (float)c.getRacketWidth() / 2;
-		//}
 		else if (x < c.getScreenWidth() && x > 0)
 		{
 			//Adjust position
-			x = (float)x - c.getUnitWidth() / 2;
-			//move(timeStep);
+			x = (float)x;
 		}
 
 		if (y <= 0)
 		{
 			y = 0;
 		}
-		//else if (mPosy > c.getScreenWidth() - (c.getRacketWidth() / 2) || y > c.getScreenWidth() - (c.getRacketWidth() / 2))
-		//{
-		//	mPosy = (float)c.getScreenWidth() - (float)c.getRacketWidth() / 2;
-		//}
 		else if (y < c.getScreenHeight() && y > 0)
 		{
 			//Adjust position
-			y = (float)y - c.getUnitHeight() / 2;
-			//move(timeStep);
+			y = (float)y;
 		}
 
 		xEnd = x;
@@ -152,14 +151,10 @@ void Lasso::mouseRelease(SDL_MouseButtonEvent & b)
 		{
 			x = 0;
 		}
-		//else if (mPosX > c.getScreenWidth() - (c.getRacketWidth() / 2) || x > c.getScreenWidth() - (c.getRacketWidth() / 2))
-		//{
-		//	mPosX = (float)c.getScreenWidth() - (float)c.getRacketWidth() / 2;
-		//}
 		else if (x < c.getScreenWidth() && x > 0)
 		{
 			//Adjust position
-			x = (float)x - c.getUnitWidth() / 2;
+			x = (float)x;
 			//move(timeStep);
 		}
 
@@ -167,14 +162,10 @@ void Lasso::mouseRelease(SDL_MouseButtonEvent & b)
 		{
 			y = 0;
 		}
-		//else if (mPosy > c.getScreenWidth() - (c.getRacketWidth() / 2) || y > c.getScreenWidth() - (c.getRacketWidth() / 2))
-		//{
-		//	mPosy = (float)c.getScreenWidth() - (float)c.getRacketWidth() / 2;
-		//}
 		else if (y < c.getScreenHeight() && y > 0)
 		{
 			//Adjust position
-			y = (float)y - c.getUnitHeight() / 2;
+			y = (float)y;
 			//move(timeStep);
 		}
 
@@ -186,17 +177,21 @@ void Lasso::mouseRelease(SDL_MouseButtonEvent & b)
 
 void Lasso::render(SDL_Renderer* gRenderer)
 {
-	SDL_Rect lasso;
+	if (press == true)
+	{
+		SDL_Rect lasso;
 
-	lasso.x = xStart;
-	lasso.y = yStart;
-	lasso.w = xEnd - xStart;
-	lasso.h = yEnd - yStart;
+		lasso.x = xStart;
+		lasso.y = yStart;
+		lasso.w = xEnd - xStart;
+		lasso.h = yEnd - yStart;
 
-	//Render racket
-	SDL_SetRenderDrawColor(gRenderer, 255, 255, 255, 255);
-	SDL_RenderDrawRect(gRenderer, &lasso);
+		//Render racket
+		SDL_SetRenderDrawColor(gRenderer, 255, 255, 255, 255);
+		SDL_RenderDrawRect(gRenderer, &lasso);
 
-	//Show the Racket
-	lassoTexture.render(lasso.x, lasso.y, gRenderer);
+		//Show the Racket
+		lassoTexture.render(lasso.x, lasso.y, gRenderer);
+	}
+
 }

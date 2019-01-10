@@ -154,17 +154,21 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="CircleC.h" />
     <ClInclude Include="Config.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Lasso.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="Texture.h" />
+    <ClInclude Include="Tile.h" />
+    <ClInclude Include="TilesArray.h" />
     <ClInclude Include="Timer.h" />
     <ClInclude Include="Unit.h" />
     <ClInclude Include="UnitGroup.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="CircleC.cpp" />
     <ClCompile Include="Config.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Lasso.cpp" />
@@ -176,6 +180,8 @@
     </ClCompile>
     <ClCompile Include="RTStrategy.cpp" />
     <ClCompile Include="Texture.cpp" />
+    <ClCompile Include="Tile.cpp" />
+    <ClCompile Include="TilesArray.cpp" />
     <ClCompile Include="Timer.cpp" />
     <ClCompile Include="Unit.cpp" />
     <ClCompile Include="UnitGroup.cpp" />
@@ -184,7 +190,10 @@
     <ResourceCompile Include="RTStrategy.rc" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="bitmap2.bmp" />
     <Image Include="dot.bmp" />
+    <Image Include="dot_Dead.bmp" />
+    <Image Include="dot_Enemy.bmp" />
   </ItemGroup>
   <ItemGroup>
     <Font Include="lazy.ttf" />

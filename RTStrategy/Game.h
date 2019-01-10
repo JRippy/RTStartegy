@@ -3,6 +3,7 @@
 #include "UnitGroup.h"
 #include "Lasso.h"
 #include "Config.h"
+#include "TilesArray.h"
 
 #include <string>
 #include <SDL.h>
@@ -20,8 +21,6 @@ public:
 	void draw(SDL_Renderer* gRenderer);
 
 	void initGame();
-
-	bool endGame(int p1, int p2);
 
 	void free();
 
@@ -45,8 +44,11 @@ private:
 	float timeStep;
 
 	bool newGame;
+	bool endGame;
 
 	SDL_Event e;
+
+	TilesArray tilesA;
 
 };
 

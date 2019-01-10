@@ -16,12 +16,18 @@ bool Game::load(SDL_Renderer* gRenderer)
 	textColor = { 255, 255, 255, 255 };
 
 	newGame = true;
+	endGame = false;
+
+	tilesA = TilesArray();
+
+	tilesA.load();
 
 	//Calculate time step
 	timeStep = stepTimer.getTicks() / 1000.f;
 
 	l = Lasso();
 
+	//ug = UnitGroup(gRenderer);
 	ug = UnitGroup(gRenderer);
 	ug.load(gRenderer);
 
@@ -56,6 +62,7 @@ bool Game::input(SDL_Renderer* gRenderer, bool quit)
 			/*car.handleEvent(e, timeStep);
 			car2.handleEvent(e, timeStep);*/
 			ug.handleEvent(e);
+			ug.handleEventEnemy(e);
 			l.handleEvent(e);
 
 		}
@@ -76,7 +83,14 @@ void Game::update()
 	//car2.isCollided(tilesA.isCollide(car2.getCollider()));0
 	select = l.getSelection();
 	ug.selectUnit(select);
+	ug.selectUnitEnemy(select);
 	ug.move(timeStep);
+
+	if (ug.getNumDeadEnemy() == c.getNumUnitEnemy())
+	{
+		printf("End Game : %d\n", ug.getNumDeadEnemy());
+		endGame = true;
+	}
 
 	//Restart step timer
 	stepTimer.start();
@@ -89,6 +103,12 @@ void Game::draw(SDL_Renderer* gRenderer)
 	//tilesA.render(gRenderer);
 	ug.render(gRenderer);
 	l.render(gRenderer);
+	tilesA.render(gRenderer);
+
+	if (endGame)
+	{
+		displayWinner(1, 0, textColor,gRenderer);
+	}
 }
 
 void Game::initGame()
@@ -96,22 +116,31 @@ void Game::initGame()
 	newGame = true;
 }
 
-bool Game::endGame(int p1, int p2)
-{
-	bool end = false;
-
-	return end;
-}
-
 void Game::free()
 {
 	//Free loaded images
 	//car.free();
-	//car2.free();
-	//tilesA.free();
+	tilesA.free();
 }
 
 void Game::displayWinner(int p1, int p2, SDL_Color textColor, SDL_Renderer* gRenderer)
 {
-	std::string winnerText = "Congratulation";
+	std::string winnerText = "Player win";
+
+	//if (p1 == c.getEndPartyGameScore())
+	//{
+	//	winnerText = "Player 1 Win!";
+	//}
+	//else
+	//{
+	//	winnerText = "Player 2 Win!";
+	//}
+
+	gInputTextTexture.loadFromRenderedText(winnerText.c_str(), textColor, gRenderer);
+	gPromptTextTexture.render((c.getScreenWidth() - gPromptTextTexture.getWidth()) / 2, 0, gRenderer);
+	gInputTextTexture.render((c.getScreenWidth() - gInputTextTexture.getWidth()) / 2, c.getScreenHeight() / 2, gRenderer);
+
+	//gInputTextTexture.loadFromRenderedText("Press a key", textColor, gRenderer);
+	//gPromptTextTexture.render((c.getScreenWidth() - gPromptTextTexture.getWidth()) / 2, 0, gRenderer);
+	//gInputTextTexture.render((c.getScreenWidth() - gInputTextTexture.getWidth()) / 2, c.getScreenHeight() / 3 * 2, gRenderer);
 }
