@@ -27,6 +27,8 @@ void TilesArray::load()
 		}
 		TilesColNum = 0;
 	}
+
+	printf("Load : %d", vTiles.size());
 }
 
 void TilesArray::render(SDL_Renderer * gRenderer)

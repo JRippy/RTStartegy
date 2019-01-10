@@ -154,6 +154,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="APathFinding.h" />
     <ClInclude Include="CircleC.h" />
     <ClInclude Include="Config.h" />
     <ClInclude Include="Game.h" />
@@ -168,6 +169,7 @@
     <ClInclude Include="UnitGroup.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="APathFinding.cpp" />
     <ClCompile Include="CircleC.cpp" />
     <ClCompile Include="Config.cpp" />
     <ClCompile Include="Game.cpp" />

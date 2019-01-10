@@ -27,6 +27,11 @@ Unit::Unit(SDL_Renderer * gRenderer) :
 	pathEnemyX = c.getScreenWidth();
 	pathEnemyY = c.getScreenHeight();
 	//printf("Display on : %f %f\n", uPosX, uPosY);
+
+
+	tilesA = TilesArray();
+
+	tilesA.load();
 }
 
 Unit::Unit(SDL_Renderer * gRenderer, int enemy) :
@@ -48,6 +53,11 @@ Unit::Unit(SDL_Renderer * gRenderer, int enemy) :
 	pathEnemyX = c.getScreenWidth();
 	pathEnemyY = c.getScreenHeight();
 	//printf("Display Enemy on : %f %f\n", uPosX, uPosY);
+
+
+	tilesA = TilesArray();
+
+	tilesA.load();
 }
 
 float Unit::getUPosX()
@@ -299,8 +309,8 @@ void Unit::move(float timeStep)
 {
 	if(tilesA.isCollide(getCollider()))
 	{
-		uPosX = toX + offSetX;
-		uPosY = toY + offSetY;
+		toX = uPosX + offSetX ;
+		toY = uPosY + offSetY;
 	}
 
 	if (uPosX != toX + offSetX)
@@ -374,6 +384,15 @@ void Unit::moveEnemy(float timeStep)
 {
 	if (!isDead)
 	{
+		if (tilesA.isCollide(getCollider()))
+		{
+			float randX = randomFloat(0, c.getScreenWidth());
+			float randY = randomFloat(0, c.getScreenHeight());
+
+			setUPosToX(randX);
+			setUPosToY(randY);
+		}
+
 		if (uPosX != toX + offSetX)
 		{
 			isMovingX = true;
