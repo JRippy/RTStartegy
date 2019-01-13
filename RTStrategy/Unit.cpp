@@ -341,16 +341,21 @@ void Unit::move(float timeStep)
 
 		for (Node node : Cordinate::aStar(player, destination)) {
 			//Your code here
-			pathNode.push_back(node);
+			Node n;
+			n.x = node.x;
+			n.y = node.y;
+			pathNode.push_back(n);
 			printf("Node X: %d Node Y: %d\n", node.x, node.y);
+
 		}
 
 		pathfound = true;
 		stepTravel = 0;
 	}
 
-	if (stepTravel < pathNode.size() && !travel(pathNode[stepTravel].x, pathNode[stepTravel].y))
+	if (stepTravel < pathNode.size() && travel(pathNode[stepTravel].x * c.getTileWidth(), pathNode[stepTravel].y * c.getTileHeight()))
 	{
+		printf("Path node X Y : %i, %i\n", pathNode[stepTravel].x, pathNode[stepTravel].y);
 		stepTravel++;
 	}
 
@@ -436,7 +441,7 @@ bool Unit::travel(float x, float y)
 	shiftColliders();
 
 	bool b = false;
-	if (uPosY != y + offSetY && uPosX != x + offSetX)
+	if (uPosY == y + offSetY && uPosX == x + offSetX)
 	{
 		b = true;
 	}
