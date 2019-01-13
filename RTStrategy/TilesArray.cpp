@@ -27,8 +27,6 @@ void TilesArray::load()
 		}
 		TilesColNum = 0;
 	}
-
-	printf("Load : %d", vTiles.size());
 }
 
 void TilesArray::render(SDL_Renderer * gRenderer)
@@ -75,7 +73,7 @@ bool TilesArray::isCollide(Circle& circle)
 		tile.w = c.getTileWidth() - 2;
 		tile.h = c.getTileHeight() - 2;
 
-		if (numB < c.getTileNum())
+		if (numB < c.getTileNum() && numB >= 0)
 		{
 			if (isActiv(numB) && isCollideTile(circle, tile))
 			{
@@ -171,7 +169,18 @@ void TilesArray::desactivateTile(int i)
 
 bool TilesArray::isActiv(int k)
 {
-	return vTiles[k].visible;
+	//printf("Indice dans TilesArray isActiv() : %d \n", k);
+	//printf("Indice dans TilesArray isActiv() : %i \n", k);
+	if (k >= 0)
+	{
+		return vTiles[k].visible;
+	}
+	else
+	{
+		return false;
+	}
+	
+
 }
 
 void TilesArray::initTiles()

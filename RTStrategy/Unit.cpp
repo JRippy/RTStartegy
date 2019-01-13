@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "Unit.h"
+#include "Cordinate.h"
 #include <cstdlib>
 
 Unit::Unit()
@@ -32,6 +33,8 @@ Unit::Unit(SDL_Renderer * gRenderer) :
 	tilesA = TilesArray();
 
 	tilesA.load();
+
+	pathfound = false;
 }
 
 Unit::Unit(SDL_Renderer * gRenderer, int enemy) :
@@ -58,6 +61,8 @@ Unit::Unit(SDL_Renderer * gRenderer, int enemy) :
 	tilesA = TilesArray();
 
 	tilesA.load();
+
+	pathfound = false;
 }
 
 float Unit::getUPosX()
@@ -198,6 +203,16 @@ double Unit::distanceSquared(int x1, int y1, int x2, int y2)
 	return deltaX * deltaX + deltaY * deltaY;
 }
 
+bool Unit::getPath()
+{
+	return pathfound;
+}
+
+void Unit::setPath(bool b)
+{
+	pathfound = b;
+}
+
 void Unit::setSelected(bool b)
 {
 	isSelected = b;
@@ -313,8 +328,27 @@ void Unit::move(float timeStep)
 		toY = uPosY + offSetY;
 	}
 
+	if (!pathfound)
+	{
+		Node player;
+		player.x = uPosX / X_STEP;
+		player.y = uPosY / Y_STEP;
+
+		Node destination;
+		destination.x = toX / X_STEP;
+		destination.y = toY / Y_STEP;
+
+		for (Node node : Cordinate::aStar(player, destination)) {
+			//Your code here
+			printf("Node X: %d Node Y: %d\n", node.x, node.y);
+		}
+
+		pathfound = true;
+	}
+
 	if (uPosX != toX + offSetX)
 	{
+
 		isMovingX = true;
 		//TODO
 		float xAng = toX - uPosX + offSetX;
@@ -554,8 +588,8 @@ void Unit::reset()
 
 void Unit::resetEnemy()
 {
-	float randX = randomFloat((float)c.getScreenWidth() * 3/ 4, c.getScreenWidth());
-	float randY = randomFloat((float)c.getScreenHeight() * 3 / 4, c.getScreenHeight());
+	float randX = randomFloat((float)c.getScreenWidth() * 3/ 4, (float)c.getScreenWidth());
+	float randY = randomFloat((float)c.getScreenHeight() * 3 / 4, (float)c.getScreenHeight());
 
 	setUPosX(randX);
 	setUPosY(randY);

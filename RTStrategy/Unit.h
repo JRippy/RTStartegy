@@ -43,6 +43,9 @@ public:
 
 	double distanceSquared(int x1, int y1, int x2, int y2);
 
+	bool getPath();
+	void setPath(bool b);
+
 	void setSelected(bool b);
 
 	bool isInSelection(SDL_Rect r);
@@ -99,6 +102,8 @@ private:
 	Circle mCollider;
 
 	TilesArray tilesA;
+
+	bool pathfound;
 
 };
 

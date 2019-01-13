@@ -88,7 +88,7 @@ void Game::update()
 
 	if (ug.getNumDeadEnemy() == c.getNumUnitEnemy())
 	{
-		printf("End Game : %d\n", ug.getNumDeadEnemy());
+		//printf("End Game : %d\n", ug.getNumDeadEnemy());
 		endGame = true;
 	}
 

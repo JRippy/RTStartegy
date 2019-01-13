@@ -152,6 +152,7 @@ void UnitGroup::mousePress(SDL_MouseButtonEvent& b) {
 			{
 				u.setUPosToX(x + (float)vUnitX[i]);
 				u.setUPosToY(y + (float)vUnitY[i]);
+				u.setPath(false);
 			}
 
 		}
@@ -236,7 +237,6 @@ void UnitGroup::mousePressEnemy(SDL_MouseButtonEvent& b) {
 
 			for (size_t i = 0; i < numUnit; i++)
 			{
-				printf("Int i %d\n", i);
 				Unit& u = vEnemyUnit[vEnemySelectedUnit[i]];
 				if (u.getSelected())
 				{
@@ -293,7 +293,6 @@ int UnitGroup::getNumDeadEnemy()
 
 		if (uE.isUnitDead())
 		{
-			printf("Je vois des gens mort\n");
 			numUnitEnemyDead++;
 		}
 	}
