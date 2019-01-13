@@ -1,6 +1,5 @@
 #include "pch.h"
 #include "Unit.h"
-#include "Cordinate.h"
 #include <cstdlib>
 
 Unit::Unit()
@@ -35,6 +34,7 @@ Unit::Unit(SDL_Renderer * gRenderer) :
 	tilesA.load();
 
 	pathfound = false;
+	stepTravel = 0;
 }
 
 Unit::Unit(SDL_Renderer * gRenderer, int enemy) :
@@ -63,6 +63,7 @@ Unit::Unit(SDL_Renderer * gRenderer, int enemy) :
 	tilesA.load();
 
 	pathfound = false;
+	stepTravel = 0;
 }
 
 float Unit::getUPosX()
@@ -322,11 +323,11 @@ bool Unit::loadMediaUnitEnemy(SDL_Renderer * gRenderer)
 
 void Unit::move(float timeStep)
 {
-	if(tilesA.isCollide(getCollider()))
-	{
-		toX = uPosX + offSetX ;
-		toY = uPosY + offSetY;
-	}
+	//if(tilesA.isCollide(getCollider()))
+	//{
+	//	toX = uPosX + offSetX ;
+	//	toY = uPosY + offSetY;
+	//}
 
 	if (!pathfound)
 	{
@@ -340,14 +341,30 @@ void Unit::move(float timeStep)
 
 		for (Node node : Cordinate::aStar(player, destination)) {
 			//Your code here
+			pathNode.push_back(node);
 			printf("Node X: %d Node Y: %d\n", node.x, node.y);
 		}
 
 		pathfound = true;
+		stepTravel = 0;
 	}
 
-	if (uPosX != toX + offSetX)
+	if (stepTravel < pathNode.size() && !travel(pathNode[stepTravel].x, pathNode[stepTravel].y))
 	{
+		stepTravel++;
+	}
+
+}
+
+
+bool Unit::travel(float x, float y)
+{
+	if (uPosX != x + offSetX)
+	{
+		if (toX != x)
+		{
+			toX = x;
+		}
 
 		isMovingX = true;
 		//TODO
@@ -379,8 +396,13 @@ void Unit::move(float timeStep)
 
 	shiftColliders();
 
-	if (uPosY != toY + offSetY)
+	if (uPosY != y + offSetY)
 	{
+		if (toY != y)
+		{
+			toY = y;
+		}
+
 		float xAng = toX - uPosX + offSetX;
 		float yAng = toY - uPosY + offSetY;
 		float tan = atan2(yAng, xAng);
@@ -412,7 +434,16 @@ void Unit::move(float timeStep)
 	}
 
 	shiftColliders();
+
+	bool b = false;
+	if (uPosY != y + offSetY && uPosX != x + offSetX)
+	{
+		b = true;
+	}
+
+	return b;
 }
+
 
 void Unit::moveEnemy(float timeStep)
 {

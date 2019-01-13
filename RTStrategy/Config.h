@@ -29,7 +29,7 @@ private:
 
 	static const int UNIT_NUM = 10;
 
-	static const int UNIT_ENEMY_NUM = 1;
+	static const int UNIT_ENEMY_NUM = 2;
 
 	static const int UNIT_VEL = 5;
 

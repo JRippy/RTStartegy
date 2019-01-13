@@ -34,7 +34,7 @@ public:
 
 	//static TilesArray ta;
 
-	static bool isValid(int x, int y);
+	//static bool isValid(int x, int y);
 
 	//static bool isDestination(int x, int y, Node dest);
 };

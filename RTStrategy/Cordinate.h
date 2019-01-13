@@ -41,7 +41,7 @@ public:
 
 		TilesArray ta = TilesArray();
 		ta.load();
-		printf("Coordinat : IsValid() ID: %d, bool : %d\n", id, ta.isActiv(id));
+		//printf("Coordinat : IsValid() ID: %d, bool : %d\n", id, ta.isActiv(id));
 		if (!ta.isActiv(id)) {
 			if (x < 0 || y < 0 || x >= (X_MAX / X_STEP) || y >= (Y_MAX / Y_STEP)) {
 				return false;

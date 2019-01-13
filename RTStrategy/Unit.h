@@ -2,6 +2,7 @@
 #include "Texture.h"
 #include "TilesArray.h"
 #include "CircleC.h"
+#include "Cordinate.h"
 
 #pragma once
 
@@ -63,6 +64,8 @@ public:
 	void move(float timeStep);
 	void moveEnemy(float timeStep);
 
+	bool travel(float x, float y);
+
 	void render(SDL_Renderer * gRenderer);
 	void renderEnemy(SDL_Renderer * gRenderer);
 
@@ -104,6 +107,8 @@ private:
 	TilesArray tilesA;
 
 	bool pathfound;
+	std::vector<Node> pathNode;
+	int stepTravel;
 
 };
 
