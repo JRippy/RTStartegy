@@ -34,6 +34,8 @@ Unit::Unit(SDL_Renderer * gRenderer) :
 	tilesA.load();
 
 	pathfound = false;
+	toXUpdated = false;
+	toYUpdated = false;
 	stepTravel = 0;
 }
 
@@ -63,6 +65,8 @@ Unit::Unit(SDL_Renderer * gRenderer, int enemy) :
 	tilesA.load();
 
 	pathfound = false;
+	toXUpdated = false;
+	toYUpdated = false;
 	stepTravel = 0;
 }
 
@@ -323,12 +327,6 @@ bool Unit::loadMediaUnitEnemy(SDL_Renderer * gRenderer)
 
 void Unit::move(float timeStep)
 {
-	//if(tilesA.isCollide(getCollider()))
-	//{
-	//	toX = uPosX + offSetX ;
-	//	toY = uPosY + offSetY;
-	//}
-
 	if (!pathfound)
 	{
 		Node player;
@@ -340,11 +338,8 @@ void Unit::move(float timeStep)
 		destination.y = toY / Y_STEP;
 
 		for (Node node : Cordinate::aStar(player, destination)) {
-			//Your code here
-			Node n;
-			n.x = node.x;
-			n.y = node.y;
-			pathNode.push_back(n);
+
+			pathNode.push_back(node);
 			printf("Node X: %d Node Y: %d\n", node.x, node.y);
 
 		}
@@ -353,9 +348,11 @@ void Unit::move(float timeStep)
 		stepTravel = 0;
 	}
 
-	if (stepTravel < pathNode.size() && travel(pathNode[stepTravel].x * c.getTileWidth(), pathNode[stepTravel].y * c.getTileHeight()))
+	if (stepTravel < pathNode.size() && travel(pathNode[stepTravel].x * c.getTileWidth() + c.getTileWidth() / 2, pathNode[stepTravel].y * c.getTileHeight() + c.getTileHeight() / 2))
 	{
 		printf("Path node X Y : %i, %i\n", pathNode[stepTravel].x, pathNode[stepTravel].y);
+		toXUpdated = false;
+		toYUpdated = false;
 		stepTravel++;
 	}
 
@@ -366,26 +363,34 @@ bool Unit::travel(float x, float y)
 {
 	if (uPosX != x + offSetX)
 	{
-		if (toX != x)
+		if (!toXUpdated)
 		{
-			toX = x;
+			printf("Befor Modif ToX : %f\n", toX);
+			float tmpx = toX - ((toX / c.getTileWidth()) * c.getTileWidth());
+			float tmpx1 = toX / c.getTileWidth();
+			float tmpx2 = tmpx1 * c.getTileWidth();
+			float tmpx3 = toX - tmpx1 * c.getTileWidth();
+
+			if (toX != x + tmpx)
+			{
+				toX = x + tmpx;
+				printf("ToX : %f and TMP : %f and TMP2 : %f and TMP3 : %f\n", toX, tmpx, tmpx2, tmpx3);
+			}
+
+			toXUpdated = true;
 		}
 
-		isMovingX = true;
-		//TODO
+		//if (toX != x)
+		//{
+		//	toX = x;
+		//	printf("ToX : %f\n", toX);
+		//}
+
+		//isMovingX = true;
+
 		float xAng = toX - uPosX + offSetX;
 		float yAng = toY - uPosY + offSetY;
 		float tan = atan2(yAng, xAng);
-
-		/*if (uPosX > toX + offSetX)
-		{
-			uPosX -= c.getVelUnit() * timeStep;
-			printf("PosX : %f, Tan : %f\n", uPosX, tan);
-		}
-		else
-		{
-			uPosX += c.getVelUnit() * timeStep;
-		}*/
 
 		uPosX += c.getVelUnit() * cos(tan) / 10;
 
@@ -393,6 +398,8 @@ bool Unit::travel(float x, float y)
 		{
 			uPosX = toX + offSetX;
 		}
+
+		//printf("Position X final : %f\n", uPosX);
 	}
 	else
 	{
@@ -403,35 +410,41 @@ bool Unit::travel(float x, float y)
 
 	if (uPosY != y + offSetY)
 	{
-		if (toY != y)
+		if (!toYUpdated)
 		{
-			toY = y;
+			float tmpy = toY - ((toY / c.getTileHeight()) * c.getTileHeight());
+
+			if (toY != y + tmpy)
+			{
+				toY = y + tmpy;
+				printf("ToY : %f; Tmp : %f\n\n", toY, tmpy);
+			}
+
+			toYUpdated = true;
 		}
+
+
+
+		//if (toY != y)
+		//{
+		//	toY = y ;
+		//	printf("ToY : %f\n\n", toY);
+		//}
 
 		float xAng = toX - uPosX + offSetX;
 		float yAng = toY - uPosY + offSetY;
 		float tan = atan2(yAng, xAng);
 
-		isMovingY = true;
-		//TODO
-		//float tan = atan2(uPosY, toY + offSetY);
-		//uPosY = tan;
-
-		//if (uPosY > toY + offSetY)
-		//{
-		//	uPosY -= c.getVelUnit() * timeStep;
-		//}
-		//else
-		//{
-		//	uPosY += c.getVelUnit() * timeStep;
-		//}
-
+		//isMovingY = true;
+		
 		uPosY += c.getVelUnit() * sin(tan) / 10;
 
 		if (fabs(uPosY - toY + offSetY) <= 0.5f)
 		{
 			uPosY = toY + offSetY;
 		}
+
+		//printf("Position Y final : %f\n\n", uPosY);
 	}
 	else
 	{
@@ -441,7 +454,7 @@ bool Unit::travel(float x, float y)
 	shiftColliders();
 
 	bool b = false;
-	if (uPosY == y + offSetY && uPosX == x + offSetX)
+	if (uPosY == toY + offSetY && uPosX == toX + offSetX)
 	{
 		b = true;
 	}
@@ -471,16 +484,6 @@ void Unit::moveEnemy(float timeStep)
 			float yAng = toY - uPosY + offSetY;
 			float tan = atan2(yAng, xAng);
 
-			/*if (uPosX > toX + offSetX)
-			{
-				uPosX -= c.getVelUnit() * timeStep;
-				printf("PosX : %f, Tan : %f\n", uPosX, tan);
-			}
-			else
-			{
-				uPosX += c.getVelUnit() * timeStep;
-			}*/
-
 			uPosX += c.getVelUnit() * cos(tan) / 10;
 
 			if (fabs(uPosX - toX + offSetX) <= 0.5f)
@@ -505,18 +508,6 @@ void Unit::moveEnemy(float timeStep)
 			float tan = atan2(yAng, xAng);
 
 			isMovingY = true;
-			//TODO
-			//float tan = atan2(uPosY, toY + offSetY);
-			//uPosY = tan;
-
-			//if (uPosY > toY + offSetY)
-			//{
-			//	uPosY -= c.getVelUnit() * timeStep;
-			//}
-			//else
-			//{
-			//	uPosY += c.getVelUnit() * timeStep;
-			//}
 
 			uPosY += c.getVelUnit() * sin(tan) / 10;
 

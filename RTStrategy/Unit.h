@@ -109,6 +109,7 @@ private:
 	bool pathfound;
 	std::vector<Node> pathNode;
 	int stepTravel;
+	bool toXUpdated, toYUpdated;
 
 };
 
