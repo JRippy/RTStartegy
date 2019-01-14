@@ -366,7 +366,7 @@ bool Unit::travel(float x, float y)
 		if (!toXUpdated)
 		{
 			printf("Befor Modif ToX : %f\n", toX);
-			float tmpx = toX - ((toX / c.getTileWidth()) * c.getTileWidth());
+			float tmpx = toX - ((int)(toX / c.getTileWidth()) * c.getTileWidth());
 			float tmpx1 = toX / c.getTileWidth();
 			float tmpx2 = tmpx1 * c.getTileWidth();
 			float tmpx3 = toX - tmpx1 * c.getTileWidth();
@@ -374,7 +374,7 @@ bool Unit::travel(float x, float y)
 			if (toX != x + tmpx)
 			{
 				toX = x + tmpx;
-				printf("ToX : %f and TMP : %f and TMP2 : %f and TMP3 : %f\n", toX, tmpx, tmpx2, tmpx3);
+				printf("ToX : %f and TMP : %f and  TMP1 : %f and TMP2 : %f and TMP3 : %f\n", toX, tmpx, tmpx1, tmpx2, tmpx3);
 			}
 
 			toXUpdated = true;
