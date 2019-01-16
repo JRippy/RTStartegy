@@ -124,7 +124,7 @@ void UnitGroup::mousePress(SDL_MouseButtonEvent& b) {
 		int unitLastRow = numUnit % (int)unitRow;
 		printf("Num floor : %f \n", unitRow);
 		printf("Num Row : %d \n", numRow);
-		printf("Num Last : %d \n", unitLastRow);
+		printf("Num Last : %d \n\n", unitLastRow);
 
 		for (size_t i = 0; i < numRow; i++)
 		{
@@ -150,8 +150,11 @@ void UnitGroup::mousePress(SDL_MouseButtonEvent& b) {
 			Unit& u = vUnit[vSelectedUnit[i]];
 			if (u.getSelected())
 			{
-				u.setUPosToX(x + (float)vUnitX[i]);
-				u.setUPosToY(y + (float)vUnitY[i]);
+				u.setUPosToX(x);
+				u.setUPosToY(y);
+
+				u.setUOffsetX((float)vUnitX[i]);
+				u.setUOffsetY((float)vUnitY[i]);
 				u.setPath(false);
 			}
 
@@ -214,7 +217,7 @@ void UnitGroup::mousePressEnemy(SDL_MouseButtonEvent& b) {
 			int unitLastRow = numUnitEnemy % (int)unitRow;
 			printf("Num floor Enemy : %f \n", unitRow);
 			printf("Num Row Enemy : %d \n", numRow);
-			printf("Num Last Enemy : %d \n", unitLastRow);
+			printf("Num Last Enemy : %d \n\n", unitLastRow);
 
 			for (size_t i = 0; i < numRow; i++)
 			{

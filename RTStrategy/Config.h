@@ -27,9 +27,9 @@ private:
 	static const int SCREEN_WIDTH = 1000;
 	static const int SCREEN_HEIGHT = 800;
 
-	static const int UNIT_NUM = 2;
+	static const int UNIT_NUM = 10;
 
-	static const int UNIT_ENEMY_NUM = 1;
+	static const int UNIT_ENEMY_NUM = 8;
 
 	static const int UNIT_VEL = 5;
 

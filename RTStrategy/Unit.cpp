@@ -19,9 +19,6 @@ Unit::Unit(SDL_Renderer * gRenderer) :
 	//Set collision circle size
 	mCollider.r = c.getUnitWidth() * 2;
 
-	//offSetX = randomFloat(-20, 20);
-	//offSetY = randomFloat(-20,20);
-
 	offSetX = 0;
 	offSetY = 0;
 	pathEnemyX = c.getScreenWidth();
@@ -135,6 +132,26 @@ void Unit::setUPosToY(float f)
 	}
 }
 
+float Unit::getUOffsetX()
+{
+	return offSetX;
+}
+
+float Unit::getUOffsetY()
+{
+	return offSetY;
+}
+
+void Unit::setUOffsetX(float f)
+{
+	offSetX = f;
+}
+
+void Unit::setUOffsetY(float f)
+{
+	offSetY = f;
+}
+
 float Unit::getIsMoving()
 {
 	return isMovingX && isMovingY;
@@ -158,11 +175,11 @@ Circle & Unit::getCollider()
 void Unit::shiftColliders()
 {
 	//Align collider to center of Unit
-	mCollider.x = (int)uPosX + (c.getUnitWidth() / 2);
-	mCollider.y = (int)uPosY + (c.getUnitHeight() / 2);
+	mCollider.x = (int)uPosX + offSetX + (c.getUnitWidth() / 2);
+	mCollider.y = (int)uPosY + offSetY + (c.getUnitHeight() / 2);
 
-	uMidX = (int)uPosX + (c.getUnitWidth() / 2);
-	uMidY = (int)uPosY + (c.getUnitHeight() / 2);
+	uMidX = (int)uPosX + offSetX + (c.getUnitWidth() / 2);
+	uMidY = (int)uPosY + offSetY + (c.getUnitHeight() / 2);
 }
 
 bool Unit::checkCollisionEnemy(Circle & a, int x, int y)
@@ -194,6 +211,7 @@ bool Unit::checkCollisionEnemy(Circle & a, int x, int y)
 	if (distanceSquared(a.x, a.y, cX, cY) <= a.r * a.r)
 	{
 		//This box and the circle have collided
+		//printf("\nRectangle de dimension : %i, %i, %i, %i || touche le cercle : %i\n", a.x, a.y, cX, cY, a.r);
 		return true;
 	}
 
@@ -367,14 +385,15 @@ bool Unit::travel(float x, float y)
 		{
 			printf("Befor Modif ToX : %f\n", toX);
 			float tmpx = toX - ((int)(toX / c.getTileWidth()) * c.getTileWidth());
-			float tmpx1 = toX / c.getTileWidth();
+			int tmpx1 = (int)toX / c.getTileWidth();
 			float tmpx2 = tmpx1 * c.getTileWidth();
 			float tmpx3 = toX - tmpx1 * c.getTileWidth();
 
-			if (toX != x + tmpx)
+			if (toX != x + offSetX)
 			{
-				toX = x + tmpx;
-				printf("ToX : %f and TMP : %f and  TMP1 : %f and TMP2 : %f and TMP3 : %f\n", toX, tmpx, tmpx1, tmpx2, tmpx3);
+				toX = x + offSetX;
+				printf("offSetX : %f\n", offSetX);
+				printf("ToX : %f and TMP : %f and  TMP1 : %i and TMP2 : %f and TMP3 : %f\n", toX, tmpx, tmpx1, tmpx2, tmpx3);
 			}
 
 			toXUpdated = true;
@@ -414,10 +433,10 @@ bool Unit::travel(float x, float y)
 		{
 			float tmpy = toY - ((toY / c.getTileHeight()) * c.getTileHeight());
 
-			if (toY != y + tmpy)
+			if (toY != y + offSetY)
 			{
-				toY = y + tmpy;
-				printf("ToY : %f; Tmp : %f\n\n", toY, tmpy);
+				toY = y + offSetY;
+				printf("ToY : %f; offSetY : %f\n\n", toY, offSetY);
 			}
 
 			toYUpdated = true;

@@ -27,6 +27,12 @@ public:
 
 	void setUPosToX(float f);
 	void setUPosToY(float f);
+
+	float getUOffsetX();
+	float getUOffsetY();
+
+	void setUOffsetX(float f);
+	void setUOffsetY(float f);
 	
 	float getIsMoving();
 
