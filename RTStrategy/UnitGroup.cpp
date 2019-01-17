@@ -122,9 +122,9 @@ void UnitGroup::mousePress(SDL_MouseButtonEvent& b) {
 		float unitRow = floor(sqrt(numUnit + 2));
 		int numRow = numUnit / unitRow ;
 		int unitLastRow = numUnit % (int)unitRow;
-		printf("Num floor : %f \n", unitRow);
+		printf("Num DOT by floor : %f \n", unitRow);
 		printf("Num Row : %d \n", numRow);
-		printf("Num Last : %d \n\n", unitLastRow);
+		printf("Num dot Last line: %d \n\n", unitLastRow);
 
 		for (size_t i = 0; i < numRow; i++)
 		{
@@ -136,6 +136,7 @@ void UnitGroup::mousePress(SDL_MouseButtonEvent& b) {
 
 		}
 
+		//Do the last line if not null
 		if (unitLastRow != 0)
 		{
 			for (size_t i = 0; i < unitLastRow; i++)
@@ -153,8 +154,12 @@ void UnitGroup::mousePress(SDL_MouseButtonEvent& b) {
 				u.setUPosToX(x);
 				u.setUPosToY(y);
 
+				//u.setUOffsetX(0);
+				//u.setUOffsetY(0);
+				
 				u.setUOffsetX((float)vUnitX[i]);
 				u.setUOffsetY((float)vUnitY[i]);
+				
 				u.setPath(false);
 			}
 
@@ -229,6 +234,7 @@ void UnitGroup::mousePressEnemy(SDL_MouseButtonEvent& b) {
 
 			}
 
+			//Do the last line if not null
 			if (unitLastRow != 0)
 			{
 				for (size_t i = 0; i < unitLastRow; i++)
@@ -261,11 +267,11 @@ void UnitGroup::move(float timeStep)
 		u.move(timeStep);
 	}
 
-	for (size_t i = 0; i < c.getNumUnitEnemy(); i++)
-	{
-		Unit& uE = vEnemyUnit[i];
-		uE.moveEnemy(timeStep);
-	}
+	//for (size_t i = 0; i < c.getNumUnitEnemy(); i++)
+	//{
+	//	Unit& uE = vEnemyUnit[i];
+	//	uE.moveEnemy(timeStep);
+	//}
 
 	startBattle();
 }
