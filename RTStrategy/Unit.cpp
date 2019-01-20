@@ -263,13 +263,10 @@ bool Unit::isInSelection(SDL_Rect r)
 
 void Unit::attack(Unit& u)
 {
-	setUPosToX(u.getUPosX());
-	setUPosToY(u.getUPosY());
-
 	//Closest point on collision box
 	int cX, cY;
-	float uEX = u.getUPosX();
-	float uEY = u.getUPosY();
+	float uEX = u.getUPosX() + u.getUOffsetX();
+	float uEY = u.getUPosY() + u.getUOffsetY();
 
 	//Find closest x offset
 	if (uMidX < uEX)
@@ -291,7 +288,7 @@ void Unit::attack(Unit& u)
 		cY = uMidY;
 	}
 
-	if (distanceSquared(getUPosX(), getUPosY(), cX, cY) <= c.getUnitHeight() * c.getUnitWidth())
+	if (distanceSquared(getUPosX(), getUPosY(), cX, cY) <= getCollider().r * getCollider().r || distanceSquared(getUPosX() + c.getUnitWidth(), getUPosY(), cX, cY) <= getCollider().r * getCollider().r || distanceSquared(getUPosX(), getUPosY() + c.getUnitHeight(), cX, cY) <= getCollider().r * getCollider().r || distanceSquared(getUPosX() + c.getUnitWidth(), getUPosY(), cX, cY) <= getCollider().r * getCollider().r)
 	{
 		kill(u);
 	}
@@ -301,6 +298,9 @@ void Unit::kill(Unit& u)
 {
 	if (!u.isDead)
 	{
+		setUPosToX(u.getUPosX() + u.getUOffsetX());
+		setUPosToY(u.getUPosY() + u.getUOffsetY());
+
 		u.isDead = true;
 	}
 }
@@ -390,6 +390,7 @@ void Unit::move(float timeStep)
 				printf("Path last node X Y : %i, %i\n", pathNode[stepTravel].x, pathNode[stepTravel].y);
 				toXUpdated = false;
 				toYUpdated = false;
+				pathNode.clear();
 				stepTravel++;
 			}
 		}

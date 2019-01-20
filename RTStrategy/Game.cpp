@@ -77,10 +77,6 @@ void Game::update()
 	timeStep = stepTimer.getTicks() / 1000.f;
 
 	//Move for time step
-	//car.move(timeStep);
-	//car.isCollided(tilesA.isCollide(car.getCollider()));
-	//car2.move(timeStep);
-	//car2.isCollided(tilesA.isCollide(car2.getCollider()));0
 	select = l.getSelection();
 	ug.selectUnit(select);
 	ug.selectUnitEnemy(select);
@@ -98,9 +94,6 @@ void Game::update()
 
 void Game::draw(SDL_Renderer* gRenderer)
 {
-	//car.render(gRenderer);
-	//car2.render(gRenderer);
-	//tilesA.render(gRenderer);
 	ug.render(gRenderer);
 	l.render(gRenderer);
 	tilesA.render(gRenderer);

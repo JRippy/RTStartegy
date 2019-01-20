@@ -156,7 +156,8 @@ void UnitGroup::mousePress(SDL_MouseButtonEvent& b) {
 
 				//u.setUOffsetX(0);
 				//u.setUOffsetY(0);
-				
+				printf("OffesetUG : X %f|| Y %f\n", vUnitX[i], vUnitY[i]);
+
 				u.setUOffsetX((float)vUnitX[i]);
 				u.setUOffsetY((float)vUnitY[i]);
 				
@@ -267,11 +268,11 @@ void UnitGroup::move(float timeStep)
 		u.move(timeStep);
 	}
 
-	//for (size_t i = 0; i < c.getNumUnitEnemy(); i++)
-	//{
-	//	Unit& uE = vEnemyUnit[i];
-	//	uE.moveEnemy(timeStep);
-	//}
+	for (size_t i = 0; i < c.getNumUnitEnemy(); i++)
+	{
+		Unit& uE = vEnemyUnit[i];
+		uE.moveEnemy(timeStep);
+	}
 
 	startBattle();
 }
@@ -320,9 +321,13 @@ void UnitGroup::startBattle()
 		{
 			Unit& uE = vEnemyUnit[j];
 
-			if (u.checkCollisionEnemy(u.getCollider(), uE.getUPosX(), uE.getUPosY()) && !uE.isUnitDead())
+			if (!uE.isUnitDead())
 			{
-				u.attack(uE);
+				if (u.checkCollisionEnemy(u.getCollider(), uE.getUPosX(), uE.getUPosY()) || u.checkCollisionEnemy(u.getCollider(), uE.getUPosX() + c.getUnitWidth(), uE.getUPosY()) || u.checkCollisionEnemy(u.getCollider(), uE.getUPosX(), uE.getUPosY() + c.getUnitHeight()) || u.checkCollisionEnemy(u.getCollider(), uE.getUPosX() + c.getUnitWidth(), uE.getUPosY() + c.getUnitHeight()))
+				{
+					u.attack(uE);
+				}
+				
 			}
 		}
 
