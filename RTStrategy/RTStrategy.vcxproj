@@ -160,6 +160,7 @@
     <ClInclude Include="Cordinate.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Lasso.h" />
+    <ClInclude Include="Movement.h" />
     <ClInclude Include="PathFinding.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="resource.h" />
@@ -177,6 +178,7 @@
     <ClCompile Include="Cordinate.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Lasso.cpp" />
+    <ClCompile Include="Movement.cpp" />
     <ClCompile Include="PathFinding.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
