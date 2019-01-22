@@ -2,31 +2,52 @@
 #include "Movement.h"
 
 
-Movement::Movement()
+Movement::Movement() :
+	isMovingX(false),
+	isMovingY(false),
+	stepTravel(0),
+	pathFound(false),
+	toXUpdated(false),
+	toYUpdated(false)
 {
-	pathFound = false;
+	pathEnemyX = c.getScreenWidth();
+	pathEnemyY = c.getScreenHeight();
 }
 
+bool Movement::getPath()
+{
+	return pathFound;
+}
 
-void Movement::move(float timeStep)
+void Movement::setPath(bool b)
+{
+	pathFound = b;
+}
+
+float Movement::getIsMoving()
+{
+	return isMovingX && isMovingY;
+}
+
+void Movement::move(Unit& unit, float timeStep)
 {
 	if (!pathFound)
 	{
-		pathNode.clear();
+		unit.pathNode.clear();
 
 		Node player;
-		player.x = getUPosX() / X_STEP;
-		player.y = getUPosY() / Y_STEP;
+		player.x = unit.getUPosX() / X_STEP;
+		player.y = unit.getUPosY() / Y_STEP;
 
 		Node destination;
-		destination.x = toX / X_STEP;
-		destination.y = toY / Y_STEP;
+		destination.x = unit.getUPosToX() / X_STEP;
+		destination.y = unit.getUPosToY() / Y_STEP;
 
 		printf("\n");
 
 		for (Node node : Cordinate::aStar(player, destination)) {
 
-			pathNode.push_back(node);
+			unit.pathNode.push_back(node);
 			printf("Node X: %d Node Y: %d\n", node.x, node.y);
 
 		}
@@ -35,14 +56,14 @@ void Movement::move(float timeStep)
 		stepTravel = 0;
 	}
 
-	if (stepTravel < pathNode.size() && pathNode.size() != 0)
+	if (stepTravel < unit.pathNode.size() && unit.pathNode.size() != 0)
 	{
 		//Not last Node
-		if (stepTravel != pathNode.size() - 1)
+		if (stepTravel != unit.pathNode.size() - 1)
 		{
-			if (travel(pathNode[stepTravel].x * c.getTileWidth() + c.getTileWidth() / 2, pathNode[stepTravel].y * c.getTileHeight() + c.getTileHeight() / 2))
+			if (travel(unit.pathNode[stepTravel].x * c.getTileWidth() + c.getTileWidth() / 2, unit.pathNode[stepTravel].y * c.getTileHeight() + c.getTileHeight() / 2))
 			{
-				printf("Path node X Y : %i, %i\n", pathNode[stepTravel].x, pathNode[stepTravel].y);
+				printf("Path node X Y : %i, %i\n", unit.pathNode[stepTravel].x, pathNode[stepTravel].y);
 				toXUpdated = false;
 				toYUpdated = false;
 				stepTravel++;
@@ -50,12 +71,12 @@ void Movement::move(float timeStep)
 		}
 		else
 		{
-			if (travel(pathNode[stepTravel].x * c.getTileWidth(), pathNode[stepTravel].y * c.getTileHeight()))
+			if (travel(unit.pathNode[stepTravel].x * c.getTileWidth(), unit.pathNode[stepTravel].y * c.getTileHeight()))
 			{
-				printf("Path last node X Y : %i, %i\n", pathNode[stepTravel].x, pathNode[stepTravel].y);
+				printf("Path last node X Y : %i, %i\n", unit.pathNode[stepTravel].x, unit.pathNode[stepTravel].y);
 				toXUpdated = false;
 				toYUpdated = false;
-				pathNode.clear();
+				unit.pathNode.clear();
 				stepTravel++;
 			}
 		}
@@ -65,9 +86,9 @@ void Movement::move(float timeStep)
 }
 
 
-bool Movement::travel(float x, float y)
+bool Movement::travel(Unit& unit, float x, float y)
 {
-	if (getUPosX() != x + getUOffsetX())
+	if (unit.getUPosX() != x + unit.getUOffsetX())
 	{
 		if (!toXUpdated)
 		{
@@ -76,11 +97,11 @@ bool Movement::travel(float x, float y)
 			//int tmpx1 = (int)toX / c.getTileWidth();
 			//float tmpx2 = tmpx1 * c.getTileWidth();
 			//float tmpx3 = toX - tmpx1 * c.getTileWidth();
-			printf("Path X : %f \nOffSetX : %f\n", x, getUOffsetX());
+			printf("Path X : %f \nOffSetX : %f\n", x, unit.getUOffsetX());
 
-			if (toX != x + getUOffsetX())
+			if (unit.getUPosToX != x + unit.getUOffsetX())
 			{
-				toX = x + getUOffsetX();
+				unit.setUPosToX(x + unit.getUOffsetX());
 			}
 
 			toXUpdated = true;
@@ -94,17 +115,17 @@ bool Movement::travel(float x, float y)
 
 		//isMovingX = true;
 
-		float xAng = toX - getUPosX() + getUOffsetX();
-		float yAng = toY - getUPosY() + getUOffsetY();
+		float xAng = unit.getUPosToX() - unit.getUPosX() + unit.getUOffsetX();
+		float yAng = unit.getUPosToY() - unit.getUPosY() + unit.getUOffsetY();
 		float tan = atan2(yAng, xAng);
 
 		//float gPx= getUPosX();
 		//setUPosX(gPx + c.getVelUnit() * cos(tan) / 10);
-		uPosX += c.getVelUnit() * cos(tan) / 10;
+		unit.setUPosToX(unit.getUPosToX() + c.getVelUnit() * cos(tan) / 10);
 
-		if (fabs(getUPosX() - toX - getUOffsetX()) <= 0.5f)
+		if (fabs(unit.getUPosX() - unit.getUPosToX() - unit.getUOffsetX()) <= 0.5f)
 		{
-			setUPosX(toX + getUOffsetX());
+			unit.setUPosX(unit.getUPosToX() + unit.getUOffsetX());
 		}
 
 		//printf("Position X final : %f\n", uPosX);
@@ -114,18 +135,18 @@ bool Movement::travel(float x, float y)
 		isMovingX = false;
 	}
 
-	shiftColliders();
+	unit.shiftColliders();
 
-	if (uPosY != y + getUOffsetY())
+	if (unit.getUPosY() != y + unit.getUOffsetY())
 	{
 		if (!toYUpdated)
 		{
 			float tmpy = toY - ((toY / c.getTileHeight()) * c.getTileHeight());
 
-			if (toY != y + getUOffsetY())
+			if (toY != y + unit.getUOffsetY())
 			{
-				toY = y + getUOffsetY();
-				printf("ToY : %f\nOffSetY : %f\n\n", toY, getUOffsetY());
+				toY = y + unit.getUOffsetY();
+				printf("ToY : %f\nOffSetY : %f\n\n", toY, unit.getUOffsetY());
 			}
 
 			toYUpdated = true;
@@ -137,17 +158,17 @@ bool Movement::travel(float x, float y)
 		//	printf("ToY : %f\n\n", toY);
 		//}
 
-		float xAng = toX - getUPosX() + getUOffsetX();
-		float yAng = toY - getUPosY() + getUOffsetY();
+		float xAng = toX - unit.getUPosX() + unit.getUOffsetX();
+		float yAng = toY - unit.getUPosY() + unit.getUOffsetY();
 		float tan = atan2(yAng, xAng);
 
 		//isMovingY = true;
 
 		uPosY += c.getVelUnit() * sin(tan) / 10;
 
-		if (fabs(getUPosY() - toY - getUOffsetY()) <= 0.5f)
+		if (fabs(unit.getUPosY() - toY - unit.getUOffsetY()) <= 0.5f)
 		{
-			setUPosY(toY + getUOffsetY());
+			unit.setUPosY(toY + unit.getUOffsetY());
 		}
 	}
 	else
@@ -155,10 +176,10 @@ bool Movement::travel(float x, float y)
 		isMovingY = false;
 	}
 
-	shiftColliders();
+	unit.shiftColliders();
 
 	bool b = false;
-	if (getUPosY() == toY + getUOffsetY() && getUPosX() == toX + getUOffsetX())
+	if (unit.getUPosY() == toY + unit.getUOffsetY() && unit.getUPosX() == toX + unit.getUOffsetX())
 	{
 		b = true;
 	}
@@ -167,67 +188,67 @@ bool Movement::travel(float x, float y)
 }
 
 
-void Movement::moveEnemy(float timeStep)
+void Movement::moveEnemy(Unit& unit, float timeStep)
 {
-	if (!isDead)
+	if (!unit.isUnitDead())
 	{
-		if (tilesA.isCollide(getCollider()))
+		if (tilesA.isCollide(unit.getCollider()))
 		{
 			float randX = randomFloat(0, c.getScreenWidth());
 			float randY = randomFloat(0, c.getScreenHeight());
 
-			setUPosToX(randX);
-			setUPosToY(randY);
+			unit.setUPosToX(randX);
+			unit.setUPosToY(randY);
 		}
 
-		if (uPosX != toX + getUOffsetX())
+		if (uPosX != toX + unit.getUOffsetX())
 		{
 			isMovingX = true;
 			//TODO
-			float xAng = toX - uPosX + getUOffsetX();
-			float yAng = toY - uPosY + getUOffsetY();
+			float xAng = toX - uPosX + unit.getUOffsetX();
+			float yAng = toY - uPosY + unit.getUOffsetY();
 			float tan = atan2(yAng, xAng);
 
 			uPosX += c.getVelUnit() * cos(tan) / 10;
 
-			if (fabs(uPosX - toX + getUOffsetX()) <= 0.5f)
+			if (fabs(uPosX - toX + unit.getUOffsetX()) <= 0.5f)
 			{
-				uPosX = toX + getUOffsetX();
+				uPosX = toX + unit.getUOffsetX();
 			}
 		}
 		else
 		{
 
 			isMovingX = false;
-			setUPosToX(randomFloat(0, pathEnemyX));
+			unit.setUPosToX(randomFloat(0, pathEnemyX));
 			pathEnemyX = pathEnemyX / 2;
 		}
 
-		shiftColliders();
+		unit.shiftColliders();
 
-		if (uPosY != toY + getUOffsetY())
+		if (uPosY != toY + unit.getUOffsetY())
 		{
-			float xAng = toX - uPosX + getUOffsetX();
-			float yAng = toY - uPosY + getUOffsetY();
+			float xAng = toX - uPosX + unit.getUOffsetX();
+			float yAng = toY - uPosY + unit.getUOffsetY();
 			float tan = atan2(yAng, xAng);
 
 			isMovingY = true;
 
 			uPosY += c.getVelUnit() * sin(tan) / 10;
 
-			if (fabs(uPosY - toY + getUOffsetY()) <= 0.5f)
+			if (fabs(uPosY - toY + unit.getUOffsetY()) <= 0.5f)
 			{
-				uPosY = toY + getUOffsetY();
+				uPosY = toY + unit.getUOffsetY();
 
 			}
 		}
 		else
 		{
 			isMovingY = false;
-			setUPosToY(randomFloat(0, pathEnemyY));
+			unit.setUPosToY(randomFloat(0, pathEnemyY));
 			pathEnemyY = pathEnemyY / 2;
 		}
 
-		shiftColliders();
+		unit.shiftColliders();
 	}
 }

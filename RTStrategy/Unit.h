@@ -15,6 +15,9 @@ public:
 
 	Unit(SDL_Renderer * gRenderer, int enemy);
 
+
+	std::vector<Node> pathNode;
+
 	//Getter and setter
 	float getUPosX();
 	float getUPosY();
@@ -53,6 +56,8 @@ public:
 	bool getPath();
 	void setPath(bool b);
 
+	std::vector<Node> getVNode();
+
 	void setSelected(bool b);
 
 	bool isInSelection(SDL_Rect r);
@@ -86,15 +91,13 @@ private:
 	float uMidX, uMidY;
 	float toX, toY;
 	float offSetX, offSetY;
-	float pathEnemyX;
-	float pathEnemyY;
+	//float pathEnemyX;
+	//float pathEnemyY;
 
 	//Dead Flag
 	bool isDead;
 
 	bool isSelected;
-	bool isMovingX;
-	bool isMovingY;
 
 	//Loaded
 	bool Loaded;
@@ -111,11 +114,6 @@ private:
 	Circle mCollider;
 
 	TilesArray tilesA;
-
-	bool pathfound;
-	std::vector<Node> pathNode;
-	int stepTravel;
-	bool toXUpdated, toYUpdated;
 
 };
 

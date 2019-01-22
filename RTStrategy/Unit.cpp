@@ -9,8 +9,6 @@ Unit::Unit()
 
 Unit::Unit(SDL_Renderer * gRenderer) :
 	isSelected(false),
-	isMovingX(false),
-	isMovingY(false),
 	isDead(false)
 {
 	loadMediaUnit(gRenderer);
@@ -21,8 +19,6 @@ Unit::Unit(SDL_Renderer * gRenderer) :
 
 	setUOffsetX(0);
 	setUOffsetX(0);
-	pathEnemyX = c.getScreenWidth();
-	pathEnemyY = c.getScreenHeight();
 	//printf("Display on : %f %f\n", uPosX, uPosY);
 
 
@@ -30,16 +26,12 @@ Unit::Unit(SDL_Renderer * gRenderer) :
 
 	tilesA.load();
 
-	pathfound = false;
-	toXUpdated = false;
-	toYUpdated = false;
-	stepTravel = 0;
+	//toXUpdated = false;
+	//toYUpdated = false;
 }
 
 Unit::Unit(SDL_Renderer * gRenderer, int enemy) :
 	isSelected(false),
-	isMovingX(false),
-	isMovingY(false),
 	isDead(false)
 {
 	loadMediaUnitEnemy(gRenderer);
@@ -52,8 +44,6 @@ Unit::Unit(SDL_Renderer * gRenderer, int enemy) :
 	//offSetY = randomFloat(-20,20);
 	setUOffsetX(0);
 	setUOffsetX(0);
-	pathEnemyX = c.getScreenWidth();
-	pathEnemyY = c.getScreenHeight();
 	//printf("Display Enemy on : %f %f\n", uPosX, uPosY);
 
 
@@ -61,10 +51,8 @@ Unit::Unit(SDL_Renderer * gRenderer, int enemy) :
 
 	tilesA.load();
 
-	pathfound = false;
-	toXUpdated = false;
-	toYUpdated = false;
-	stepTravel = 0;
+	//toXUpdated = false;
+	//toYUpdated = false;
 }
 
 float Unit::getUPosX()
@@ -152,11 +140,6 @@ void Unit::setUOffsetY(float f)
 	offSetY = f;
 }
 
-float Unit::getIsMoving()
-{
-	return isMovingX && isMovingY;
-}
-
 float Unit::getSelected()
 {
 	return isSelected;
@@ -226,14 +209,9 @@ double Unit::distanceSquared(int x1, int y1, int x2, int y2)
 	return deltaX * deltaX + deltaY * deltaY;
 }
 
-bool Unit::getPath()
+std::vector<Node> Unit::getVNode()
 {
-	return pathfound;
-}
-
-void Unit::setPath(bool b)
-{
-	pathfound = b;
+	return pathNode;
 }
 
 void Unit::setSelected(bool b)
