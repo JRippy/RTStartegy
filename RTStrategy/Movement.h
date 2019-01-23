@@ -1,14 +1,14 @@
-#pragma once
 #include "Unit.h"
+#pragma once
 
 class Movement
 {
 public:
 	Movement();
 
-	bool getPath();
+	bool getPath(Unit& unit);
 
-	void setPath(bool b);
+	void setPath(Unit& unit, bool b);
 
 	float getIsMoving();
 
@@ -33,5 +33,7 @@ private:
 	float pathEnemyY;
 
 	bool toXUpdated, toYUpdated;
+
+	TilesArray tilesA;
 };
 

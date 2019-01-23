@@ -1,4 +1,5 @@
 #include "Unit.h"
+#include "Movement.h"
 
 #include <vector>
 
@@ -53,6 +54,8 @@ public:
 	//float calculSquareX(int position, int unitTotal);
 
 	//float calculSquareY(int position, int unitTotal);
-
+private:
+	
+	Movement movement;
 };
 

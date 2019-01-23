@@ -12,14 +12,18 @@ Movement::Movement() :
 {
 	pathEnemyX = c.getScreenWidth();
 	pathEnemyY = c.getScreenHeight();
+
+	tilesA = TilesArray();
+
+	tilesA.load();
 }
 
-bool Movement::getPath()
+bool Movement::getPath(Unit& unit)
 {
 	return pathFound;
 }
 
-void Movement::setPath(bool b)
+void Movement::setPath(Unit& unit, bool b)
 {
 	pathFound = b;
 }
@@ -58,12 +62,18 @@ void Movement::move(Unit& unit, float timeStep)
 
 	if (stepTravel < unit.pathNode.size() && unit.pathNode.size() != 0)
 	{
+		int stepX = unit.getNodeX(stepTravel);
+		int stepY = unit.getNodeY(stepTravel);
+
+
+
 		//Not last Node
 		if (stepTravel != unit.pathNode.size() - 1)
 		{
-			if (travel(unit.pathNode[stepTravel].x * c.getTileWidth() + c.getTileWidth() / 2, unit.pathNode[stepTravel].y * c.getTileHeight() + c.getTileHeight() / 2))
+			//if (travel(stepX2 * c.getTileWidth() + c.getTileWidth() / 2, unit.getNodeY(stepTravel) * c.getTileHeight() + c.getTileHeight() / 2))
+			if (travel(unit, stepX * c.getTileWidth() + c.getTileWidth() / 2, unit.getNodeY(stepTravel) * c.getTileHeight() + c.getTileHeight() / 2))
 			{
-				printf("Path node X Y : %i, %i\n", unit.pathNode[stepTravel].x, pathNode[stepTravel].y);
+				printf("Path node X Y : %i, %i\n", unit.pathNode[stepTravel].x, unit.pathNode[stepTravel].y);
 				toXUpdated = false;
 				toYUpdated = false;
 				stepTravel++;
@@ -71,9 +81,9 @@ void Movement::move(Unit& unit, float timeStep)
 		}
 		else
 		{
-			if (travel(unit.pathNode[stepTravel].x * c.getTileWidth(), unit.pathNode[stepTravel].y * c.getTileHeight()))
+			if (travel(unit, stepX * c.getTileWidth(), stepY * c.getTileHeight()))
 			{
-				printf("Path last node X Y : %i, %i\n", unit.pathNode[stepTravel].x, unit.pathNode[stepTravel].y);
+				printf("Path last node X Y : %i, %i\n", unit.getNodeX(stepTravel), unit.getNodeY(stepTravel));
 				toXUpdated = false;
 				toYUpdated = false;
 				unit.pathNode.clear();
@@ -99,7 +109,7 @@ bool Movement::travel(Unit& unit, float x, float y)
 			//float tmpx3 = toX - tmpx1 * c.getTileWidth();
 			printf("Path X : %f \nOffSetX : %f\n", x, unit.getUOffsetX());
 
-			if (unit.getUPosToX != x + unit.getUOffsetX())
+			if (unit.getUPosToX() != x + unit.getUOffsetX())
 			{
 				unit.setUPosToX(x + unit.getUOffsetX());
 			}
@@ -141,12 +151,12 @@ bool Movement::travel(Unit& unit, float x, float y)
 	{
 		if (!toYUpdated)
 		{
-			float tmpy = toY - ((toY / c.getTileHeight()) * c.getTileHeight());
+			float tmpy = unit.getUPosToY() - ((unit.getUPosToY() / c.getTileHeight()) * c.getTileHeight());
 
-			if (toY != y + unit.getUOffsetY())
+			if (unit.getUPosToY() != y + unit.getUOffsetY())
 			{
-				toY = y + unit.getUOffsetY();
-				printf("ToY : %f\nOffSetY : %f\n\n", toY, unit.getUOffsetY());
+				unit.setUPosToY(y + unit.getUOffsetY());
+				printf("ToY : %f\nOffSetY : %f\n\n", unit.getUPosToY(), unit.getUOffsetY());
 			}
 
 			toYUpdated = true;
@@ -158,17 +168,17 @@ bool Movement::travel(Unit& unit, float x, float y)
 		//	printf("ToY : %f\n\n", toY);
 		//}
 
-		float xAng = toX - unit.getUPosX() + unit.getUOffsetX();
-		float yAng = toY - unit.getUPosY() + unit.getUOffsetY();
+		float xAng = unit.getUPosToX() - unit.getUPosX() + unit.getUOffsetX();
+		float yAng = unit.getUPosToY() - unit.getUPosY() + unit.getUOffsetY();
 		float tan = atan2(yAng, xAng);
 
 		//isMovingY = true;
 
-		uPosY += c.getVelUnit() * sin(tan) / 10;
+		unit.setUPosY(unit.getUPosY() + c.getVelUnit() * sin(tan) / 10);
 
-		if (fabs(unit.getUPosY() - toY - unit.getUOffsetY()) <= 0.5f)
+		if (fabs(unit.getUPosY() - unit.getUPosToY() - unit.getUOffsetY()) <= 0.5f)
 		{
-			unit.setUPosY(toY + unit.getUOffsetY());
+			unit.setUPosY(unit.getUPosToY() + unit.getUOffsetY());
 		}
 	}
 	else
@@ -179,7 +189,7 @@ bool Movement::travel(Unit& unit, float x, float y)
 	unit.shiftColliders();
 
 	bool b = false;
-	if (unit.getUPosY() == toY + unit.getUOffsetY() && unit.getUPosX() == toX + unit.getUOffsetX())
+	if (unit.getUPosY() == unit.getUPosToY() + unit.getUOffsetY() && unit.getUPosX() == unit.getUPosToX() + unit.getUOffsetX())
 	{
 		b = true;
 	}
@@ -194,58 +204,58 @@ void Movement::moveEnemy(Unit& unit, float timeStep)
 	{
 		if (tilesA.isCollide(unit.getCollider()))
 		{
-			float randX = randomFloat(0, c.getScreenWidth());
-			float randY = randomFloat(0, c.getScreenHeight());
+			float randX = unit.randomFloat(0, c.getScreenWidth());
+			float randY = unit.randomFloat(0, c.getScreenHeight());
 
 			unit.setUPosToX(randX);
 			unit.setUPosToY(randY);
 		}
 
-		if (uPosX != toX + unit.getUOffsetX())
+		if (unit.getUPosX() != unit.getUPosToX() + unit.getUOffsetX())
 		{
 			isMovingX = true;
 			//TODO
-			float xAng = toX - uPosX + unit.getUOffsetX();
-			float yAng = toY - uPosY + unit.getUOffsetY();
+			float xAng = unit.getUPosToX() - unit.getUPosX() + unit.getUOffsetX();
+			float yAng = unit.getUPosToY() - unit.getUPosY() + unit.getUOffsetY();
 			float tan = atan2(yAng, xAng);
 
-			uPosX += c.getVelUnit() * cos(tan) / 10;
+			unit.setUPosX(unit.getUPosX() + c.getVelUnit() * cos(tan) / 10);
 
-			if (fabs(uPosX - toX + unit.getUOffsetX()) <= 0.5f)
+			if (fabs(unit.getUPosX() - unit.getUPosToX() + unit.getUOffsetX()) <= 0.5f)
 			{
-				uPosX = toX + unit.getUOffsetX();
+				unit.setUPosX(unit.getUPosToX() + unit.getUOffsetX());
 			}
 		}
 		else
 		{
 
 			isMovingX = false;
-			unit.setUPosToX(randomFloat(0, pathEnemyX));
+			unit.setUPosToX(unit.randomFloat(0, pathEnemyX));
 			pathEnemyX = pathEnemyX / 2;
 		}
 
 		unit.shiftColliders();
 
-		if (uPosY != toY + unit.getUOffsetY())
+		if (unit.getUPosY() != unit.getUPosToY() + unit.getUOffsetY())
 		{
-			float xAng = toX - uPosX + unit.getUOffsetX();
-			float yAng = toY - uPosY + unit.getUOffsetY();
+			float xAng = unit.getUPosToX() - unit.getUPosX() + unit.getUOffsetX();
+			float yAng = unit.getUPosToY() - unit.getUPosY() + unit.getUOffsetY();
 			float tan = atan2(yAng, xAng);
 
 			isMovingY = true;
 
-			uPosY += c.getVelUnit() * sin(tan) / 10;
+			unit.setUPosY(unit.getUPosY() + c.getVelUnit() * sin(tan) / 10);
 
-			if (fabs(uPosY - toY + unit.getUOffsetY()) <= 0.5f)
+			if (fabs(unit.getUPosY() - unit.getUPosToY() + unit.getUOffsetY()) <= 0.5f)
 			{
-				uPosY = toY + unit.getUOffsetY();
+				unit.setUPosY(unit.getUPosToY() + unit.getUOffsetY());
 
 			}
 		}
 		else
 		{
 			isMovingY = false;
-			unit.setUPosToY(randomFloat(0, pathEnemyY));
+			unit.setUPosToY(unit.randomFloat(0, pathEnemyY));
 			pathEnemyY = pathEnemyY / 2;
 		}
 

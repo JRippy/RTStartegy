@@ -23,6 +23,8 @@ UnitGroup::UnitGroup(SDL_Renderer* gRenderer)
 	vEnemySelectedUnit.reserve(c.getNumUnitEnemy());
 	vEnemyUnitX.reserve(c.getNumUnitEnemy());
 	vEnemyUnitY.reserve(c.getNumUnitEnemy());
+
+	movement = Movement();
 }
 
 void UnitGroup::handleEvent(SDL_Event & e)
@@ -161,7 +163,7 @@ void UnitGroup::mousePress(SDL_MouseButtonEvent& b) {
 				u.setUOffsetX((float)vUnitX[i]);
 				u.setUOffsetY((float)vUnitY[i]);
 				
-				u.setPath(false);
+				movement.setPath(u, false);
 			}
 
 		}
@@ -265,13 +267,13 @@ void UnitGroup::move(float timeStep)
 	for (size_t i = 0; i < c.getNumUnit(); i++)
 	{
 		Unit& u = vUnit[i];
-		u.move(timeStep);
+		movement.move(u,timeStep);
 	}
 
 	for (size_t i = 0; i < c.getNumUnitEnemy(); i++)
 	{
 		Unit& uE = vEnemyUnit[i];
-		uE.moveEnemy(timeStep);
+		movement.move(uE,timeStep);
 	}
 
 	startBattle();

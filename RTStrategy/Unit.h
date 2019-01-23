@@ -37,7 +37,7 @@ public:
 	void setUOffsetX(float f);
 	void setUOffsetY(float f);
 	
-	float getIsMoving();
+	//float getIsMoving();
 
 	float getSelected();
 
@@ -53,8 +53,8 @@ public:
 
 	double distanceSquared(int x1, int y1, int x2, int y2);
 
-	bool getPath();
-	void setPath(bool b);
+	//bool getPath();
+	//void setPath(bool b);
 
 	std::vector<Node> getVNode();
 
@@ -72,10 +72,13 @@ public:
 
 	bool loadMediaUnitEnemy(SDL_Renderer * gRenderer);
 
-	void move(float timeStep);
-	void moveEnemy(float timeStep);
+	//void move(float timeStep);
+	//void moveEnemy(float timeStep);
 
-	bool travel(float x, float y);
+	//bool travel(float x, float y);
+
+	int getNodeX(int i);
+	int getNodeY(int i);
 
 	void render(SDL_Renderer * gRenderer);
 	void renderEnemy(SDL_Renderer * gRenderer);

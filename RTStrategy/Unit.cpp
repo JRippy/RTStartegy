@@ -21,10 +21,11 @@ Unit::Unit(SDL_Renderer * gRenderer) :
 	setUOffsetX(0);
 	//printf("Display on : %f %f\n", uPosX, uPosY);
 
+	//movement = Movement();
 
-	tilesA = TilesArray();
+	//tilesA = TilesArray();
 
-	tilesA.load();
+	//tilesA.load();
 
 	//toXUpdated = false;
 	//toYUpdated = false;
@@ -46,10 +47,11 @@ Unit::Unit(SDL_Renderer * gRenderer, int enemy) :
 	setUOffsetX(0);
 	//printf("Display Enemy on : %f %f\n", uPosX, uPosY);
 
+	/*movement = Movement();*/
 
-	tilesA = TilesArray();
+	//tilesA = TilesArray();
 
-	tilesA.load();
+	//tilesA.load();
 
 	//toXUpdated = false;
 	//toYUpdated = false;
@@ -208,6 +210,16 @@ double Unit::distanceSquared(int x1, int y1, int x2, int y2)
 	int deltaY = y2 - y1;
 	return deltaX * deltaX + deltaY * deltaY;
 }
+//
+//bool Unit::getPath()
+//{
+//	return movement.getPath(*this);
+//}
+//
+//void Unit::setPath(bool b)
+//{
+//	movement.setPath(*this, b);
+//}
 
 std::vector<Node> Unit::getVNode()
 {
@@ -320,6 +332,17 @@ bool Unit::loadMediaUnitEnemy(SDL_Renderer * gRenderer)
 
 	return LoadedEnemy;
 }
+
+//void Unit::move(float timeStep)
+//{
+//	movement.move(*this ,timeStep);
+//}
+//
+//void Unit::moveEnemy(float timeStep)
+//{
+//	movement.moveEnemy(*this, timeStep);
+//}
+
 //
 //void Unit::move(float timeStep)
 //{
@@ -544,6 +567,16 @@ bool Unit::loadMediaUnitEnemy(SDL_Renderer * gRenderer)
 //		shiftColliders();
 //	}
 //}
+
+int Unit::getNodeX(int i)
+{
+	return pathNode[i].x;
+}
+
+int Unit::getNodeY(int i)
+{
+	return pathNode[i].y;
+}
 
 void Unit::render(SDL_Renderer* gRenderer)
 {
