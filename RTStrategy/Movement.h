@@ -35,5 +35,7 @@ private:
 	bool toXUpdated, toYUpdated;
 
 	TilesArray tilesA;
+
+	Cordinate cordinate;
 };
 

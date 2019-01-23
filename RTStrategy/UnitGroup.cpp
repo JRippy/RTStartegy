@@ -10,6 +10,8 @@ UnitGroup::UnitGroup()
 
 UnitGroup::UnitGroup(SDL_Renderer* gRenderer)
 {	
+	isPathFound = false;
+
 	numUnit = 0;
 	numUnitDead = 0;
 	vUnit.reserve(c.getNumUnit());
@@ -24,7 +26,6 @@ UnitGroup::UnitGroup(SDL_Renderer* gRenderer)
 	vEnemyUnitX.reserve(c.getNumUnitEnemy());
 	vEnemyUnitY.reserve(c.getNumUnitEnemy());
 
-	movement = Movement();
 }
 
 void UnitGroup::handleEvent(SDL_Event & e)
@@ -163,7 +164,7 @@ void UnitGroup::mousePress(SDL_MouseButtonEvent& b) {
 				u.setUOffsetX((float)vUnitX[i]);
 				u.setUOffsetY((float)vUnitY[i]);
 				
-				movement.setPath(u, false);
+				isPathFound = false;
 			}
 
 		}
@@ -267,14 +268,18 @@ void UnitGroup::move(float timeStep)
 	for (size_t i = 0; i < c.getNumUnit(); i++)
 	{
 		Unit& u = vUnit[i];
+		movement.setPath(u, isPathFound);
 		movement.move(u,timeStep);
+		isPathFound = movement.getPath(u);
+
 	}
 
-	for (size_t i = 0; i < c.getNumUnitEnemy(); i++)
-	{
-		Unit& uE = vEnemyUnit[i];
-		movement.move(uE,timeStep);
-	}
+	//for (size_t i = 0; i < c.getNumUnitEnemy(); i++)
+	//{
+	//	Unit& uE = vEnemyUnit[i];
+	//	Movement movement = Movement();
+	//	movement.moveEnemy(uE,timeStep);
+	//}
 
 	startBattle();
 }
@@ -328,6 +333,7 @@ void UnitGroup::startBattle()
 				if (u.checkCollisionEnemy(u.getCollider(), uE.getUPosX(), uE.getUPosY()) || u.checkCollisionEnemy(u.getCollider(), uE.getUPosX() + c.getUnitWidth(), uE.getUPosY()) || u.checkCollisionEnemy(u.getCollider(), uE.getUPosX(), uE.getUPosY() + c.getUnitHeight()) || u.checkCollisionEnemy(u.getCollider(), uE.getUPosX() + c.getUnitWidth(), uE.getUPosY() + c.getUnitHeight()))
 				{
 					u.attack(uE);
+					isPathFound = false;
 				}
 				
 			}

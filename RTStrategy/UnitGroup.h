@@ -54,8 +54,10 @@ public:
 	//float calculSquareX(int position, int unitTotal);
 
 	//float calculSquareY(int position, int unitTotal);
+
 private:
 	
-	Movement movement;
+	bool isPathFound;
+	Movement movement = Movement();
 };
 

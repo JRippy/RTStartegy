@@ -171,7 +171,7 @@ bool TilesArray::isActiv(int k)
 {
 	//printf("Indice dans TilesArray isActiv() : %d \n", k);
 	//printf("Indice dans TilesArray isActiv() : %i \n", k);
-	if (k >= 0)
+	if (k >= 0 && k < vTiles.size())
 	{
 		return vTiles[k].visible;
 	}
