@@ -67,7 +67,7 @@ public:
 	}
 
 
-	static vector<Node> makePath(array<array<Node, (Y_MAX / Y_STEP)>, (X_MAX / X_STEP)> map, Node dest) {
+	static vector<Node> makePath(const array<array<Node, (Y_MAX / Y_STEP)>, (X_MAX / X_STEP)>& map, Node dest) {
 		try {
 			printf("Found a path\n");
 			int x = dest.x;
@@ -101,7 +101,7 @@ public:
 	}
 
 
-	static vector<Node> aStar(Node player, Node dest) {
+	static vector<Node> aStar(const Node& player,const Node& dest) {
 		vector<Node> empty;
 		if (isValid(dest.x, dest.y) == false) {
 			printf("Destination is an obstacle\n");
@@ -206,6 +206,7 @@ public:
 				}
 			}
 		}
+
 		if (destinationFound == false) {
 			printf("Destination not found\n");
 			return empty;
