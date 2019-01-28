@@ -116,7 +116,7 @@ public:
 		bool closedList[(X_MAX / X_STEP)][(Y_MAX / Y_STEP)];
 
 		//Initialize whole map
-		//Node allMap[50][25];
+		//Node allMap[10][10];
 		array<array < Node, (Y_MAX / Y_STEP)>, (X_MAX / X_STEP)> allMap;
 		for (int x = 0; x < (X_MAX / X_STEP); x++) {
 			for (int y = 0; y < (Y_MAX / Y_STEP); y++) {
