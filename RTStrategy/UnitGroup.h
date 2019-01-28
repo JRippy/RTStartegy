@@ -57,7 +57,6 @@ public:
 
 private:
 	
-	bool isPathFound;
 	Movement movement = Movement();
 };
 

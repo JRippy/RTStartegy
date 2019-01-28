@@ -80,6 +80,9 @@ public:
 	int getNodeX(int i);
 	int getNodeY(int i);
 
+	bool getPathFound();
+	void setPathFound(bool b);
+
 	void render(SDL_Renderer * gRenderer);
 	void renderEnemy(SDL_Renderer * gRenderer);
 
@@ -117,6 +120,8 @@ private:
 	Circle mCollider;
 
 	TilesArray tilesA;
+
+	bool isPathFound;
 
 };
 

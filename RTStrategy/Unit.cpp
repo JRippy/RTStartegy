@@ -9,6 +9,7 @@ Unit::Unit()
 
 Unit::Unit(SDL_Renderer * gRenderer) :
 	isSelected(false),
+	isPathFound(false),
 	isDead(false)
 {
 	loadMediaUnit(gRenderer);
@@ -33,6 +34,7 @@ Unit::Unit(SDL_Renderer * gRenderer) :
 
 Unit::Unit(SDL_Renderer * gRenderer, int enemy) :
 	isSelected(false),
+	isPathFound(false),
 	isDead(false)
 {
 	loadMediaUnitEnemy(gRenderer);
@@ -576,6 +578,16 @@ int Unit::getNodeX(int i)
 int Unit::getNodeY(int i)
 {
 	return pathNode[i].y;
+}
+
+bool Unit::getPathFound()
+{
+	return isPathFound;
+}
+
+void Unit::setPathFound(bool b)
+{
+	isPathFound = b;
 }
 
 void Unit::render(SDL_Renderer* gRenderer)

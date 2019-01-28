@@ -60,7 +60,7 @@ void Movement::move(Unit& unit, float timeStep)
 		stepTravel = 0;
 	}
 
-	if (stepTravel < unit.pathNode.size() && unit.pathNode.size() != 0)
+	if (stepTravel < unit.pathNode.size() && unit.pathNode.size() > 0)
 	{
 		int stepX = unit.getNodeX(stepTravel);
 		int stepY = unit.getNodeY(stepTravel);
@@ -76,10 +76,6 @@ void Movement::move(Unit& unit, float timeStep)
 				toYUpdated = false;
 				stepTravel++;
 			}
-			else
-			{
-				printf("InPathStep but not Travel\n");
-			}
 		}
 		else
 		{
@@ -90,10 +86,6 @@ void Movement::move(Unit& unit, float timeStep)
 				toYUpdated = false;
 				unit.pathNode.clear();
 				stepTravel++;
-			}
-			else
-			{
-				printf("Not in inPathStep and not Travel\n");
 			}
 		}
 
