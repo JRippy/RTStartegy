@@ -154,14 +154,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="APathFinding.h" />
     <ClInclude Include="CircleC.h" />
     <ClInclude Include="Config.h" />
     <ClInclude Include="Cordinate.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Lasso.h" />
     <ClInclude Include="Movement.h" />
-    <ClInclude Include="PathFinding.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="Texture.h" />
@@ -172,14 +170,12 @@
     <ClInclude Include="UnitGroup.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="APathFinding.cpp" />
     <ClCompile Include="CircleC.cpp" />
     <ClCompile Include="Config.cpp" />
     <ClCompile Include="Cordinate.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Lasso.cpp" />
     <ClCompile Include="Movement.cpp" />
-    <ClCompile Include="PathFinding.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>

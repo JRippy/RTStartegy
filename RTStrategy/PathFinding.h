@@ -15,15 +15,15 @@ auto comp = [](const pair<int, int> &a, const pair<int, int> &b) {return a.secon
 class PathFinding
 {
 public:
-	PathFinding();
-	~PathFinding();
+	//PathFinding();
+	//~PathFinding();
 
-	void givePath();
+	//void givePath();
 
-	void findPath();
+	//void findPath();
 
-	TilesArray ta;
+	//TilesArray ta;
 
-	Config c;
+	//Config c;
 };
 

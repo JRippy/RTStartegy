@@ -82,6 +82,7 @@ public:
 
 	bool getPathFound();
 	void setPathFound(bool b);
+	void clearPath();
 
 	void render(SDL_Renderer * gRenderer);
 	void renderEnemy(SDL_Renderer * gRenderer);

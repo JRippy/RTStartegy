@@ -590,6 +590,11 @@ void Unit::setPathFound(bool b)
 	isPathFound = b;
 }
 
+void Unit::clearPath()
+{
+	pathNode.clear();
+}
+
 void Unit::render(SDL_Renderer* gRenderer)
 {
 	if (!Loaded || !unitTexture.loadFromFile("dot.bmp", gRenderer))

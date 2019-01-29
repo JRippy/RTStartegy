@@ -38,6 +38,7 @@ void Movement::move(Unit& unit, float timeStep)
 	if (!pathFound)
 	{
 		unit.pathNode.clear();
+		unit.clearPath();
 
 		Node player;
 		player.x = unit.getUPosX() / X_STEP;
@@ -66,10 +67,10 @@ void Movement::move(Unit& unit, float timeStep)
 		int stepY = unit.getNodeY(stepTravel);
 
 		//Not last Node
-		if (stepTravel != unit.pathNode.size() - 1)
+		if (stepTravel <= unit.pathNode.size() - 1)
 		{
 			//if (travel(stepX2 * c.getTileWidth() + c.getTileWidth() / 2, unit.getNodeY(stepTravel) * c.getTileHeight() + c.getTileHeight() / 2))
-			if (travel(unit, stepX * c.getTileWidth() + c.getTileWidth() / 2, unit.getNodeY(stepTravel) * c.getTileHeight() + c.getTileHeight() / 2))
+			if (travel(unit, stepX * c.getTileWidth() + c.getTileWidth() / 2, stepY * c.getTileHeight() + c.getTileHeight() / 2))
 			{
 				printf("Movement::Path node X Y : %i, %i\n", unit.pathNode[stepTravel].x, unit.pathNode[stepTravel].y);
 				toXUpdated = false;
@@ -84,7 +85,7 @@ void Movement::move(Unit& unit, float timeStep)
 				printf("Movement::Path last node X Y : %i, %i\n", unit.getNodeX(stepTravel), unit.getNodeY(stepTravel));
 				toXUpdated = false;
 				toYUpdated = false;
-				unit.pathNode.clear();
+				unit.clearPath();
 				stepTravel++;
 			}
 		}
@@ -100,12 +101,7 @@ bool Movement::travel(Unit& unit, float x, float y)
 	{
 		if (!toXUpdated)
 		{
-			//printf("Befor Modif ToX : %f\n", toX);
-			//float tmpx = toX - ((int)(toX / c.getTileWidth()) * c.getTileWidth());
-			//int tmpx1 = (int)toX / c.getTileWidth();
-			//float tmpx2 = tmpx1 * c.getTileWidth();
-			//float tmpx3 = toX - tmpx1 * c.getTileWidth();
-			printf("Movement::Path X : %f \nOffSetX : %f\n", x, unit.getUOffsetX());
+			//printf("Movement::Path X : %f \nOffSetX : %f\n", x, unit.getUOffsetX());
 
 			if (unit.getUPosToX() != x + unit.getUOffsetX())
 			{
@@ -114,14 +110,6 @@ bool Movement::travel(Unit& unit, float x, float y)
 
 			toXUpdated = true;
 		}
-
-		//if (toX != x)
-		//{
-		//	toX = x;
-		//	printf("ToX : %f\n", toX);
-		//}
-
-		//isMovingX = true;
 
 		float xAng = unit.getUPosToX() - unit.getUPosX() + unit.getUOffsetX();
 		float yAng = unit.getUPosToY() - unit.getUPosY() + unit.getUOffsetY();
@@ -135,8 +123,6 @@ bool Movement::travel(Unit& unit, float x, float y)
 		{
 			unit.setUPosX(unit.getUPosToX() + unit.getUOffsetX());
 		}
-
-		//printf("Position X final : %f\n", uPosX);
 	}
 	else
 	{
@@ -154,23 +140,15 @@ bool Movement::travel(Unit& unit, float x, float y)
 			if (unit.getUPosToY() != y + unit.getUOffsetY())
 			{
 				unit.setUPosToY(y + unit.getUOffsetY());
-				printf("Movement::ToY : %f\nOffSetY : %f\n\n", unit.getUPosToY(), unit.getUOffsetY());
+				//printf("Movement::ToY : %f\nOffSetY : %f\n\n", unit.getUPosToY(), unit.getUOffsetY());
 			}
 
 			toYUpdated = true;
 		}
 
-		//if (toY != y)
-		//{
-		//	toY = y ;
-		//	printf("ToY : %f\n\n", toY);
-		//}
-
 		float xAng = unit.getUPosToX() - unit.getUPosX() + unit.getUOffsetX();
 		float yAng = unit.getUPosToY() - unit.getUPosY() + unit.getUOffsetY();
 		float tan = atan2(yAng, xAng);
-
-		//isMovingY = true;
 
 		unit.setUPosY(unit.getUPosY() + c.getVelUnit() * sin(tan) / 10);
 

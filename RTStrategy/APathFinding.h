@@ -29,8 +29,8 @@ inline bool operator < (const Node& lhs, const Node& rhs)
 class APathFinding
 {
 public:
-	APathFinding();
-	~APathFinding();
+	//APathFinding();
+	//~APathFinding();
 
 	//static TilesArray ta;
 

@@ -3,16 +3,16 @@
 
 using namespace std;
 
-APathFinding::APathFinding()
-{
-	//ta = TilesArray();
-	//ta.load();
-}
-
-
-APathFinding::~APathFinding()
-{
-}
+//APathFinding::APathFinding()
+//{
+//	//ta = TilesArray();
+//	//ta.load();
+//}
+//
+//
+//APathFinding::~APathFinding()
+//{
+//}
 
 //static bool isValid(int x, int y) { //If our Node is an obstacle it is not valid
 //	int id = x + y * (X_MAX / X_STEP);

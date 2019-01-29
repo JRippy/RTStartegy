@@ -222,9 +222,6 @@ void UnitGroup::mousePressEnemy(SDL_MouseButtonEvent& b) {
 			float unitRow = floor(sqrt(numUnitEnemy + 2));
 			int numRow = numUnitEnemy / unitRow ;
 			int unitLastRow = numUnitEnemy % (int)unitRow;
-			printf("Num floor Enemy : %f \n", unitRow);
-			printf("Num Row Enemy : %d \n", numRow);
-			printf("Num Last Enemy : %d \n\n", unitLastRow);
 
 			for (size_t i = 0; i < numRow; i++)
 			{
@@ -266,11 +263,14 @@ void UnitGroup::move(float timeStep)
 	for (size_t i = 0; i < c.getNumUnit(); i++)
 	{
 		Unit& u = vUnit[i];
+
 		movement.setPath(u, u.getPathFound());
 		movement.move(u,timeStep);
 		u.setPathFound(movement.getPath(u));
+
 	}
 
+	//Move Enemy
 	//for (size_t i = 0; i < c.getNumUnitEnemy(); i++)
 	//{
 	//	Unit& uE = vEnemyUnit[i];
