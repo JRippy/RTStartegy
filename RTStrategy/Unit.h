@@ -1,41 +1,43 @@
+#pragma once
+
+#include "GameObjectUnit.h"
 #include "Config.h"
 #include "Texture.h"
 #include "TilesArray.h"
 #include "CircleC.h"
 #include "Cordinate.h"
 
-#pragma once
-
-class Unit
+class Unit :
+	public GameObjectUnit
 {
 public:
 	Unit();
 	
 	Unit(SDL_Renderer * gRenderer);
 
-	Unit(SDL_Renderer * gRenderer, int enemy);
+	//Unit(SDL_Renderer * gRenderer, int enemy);
 
 
 	std::vector<Node> pathNode;
 
-	//Getter and setter
-	float getUPosX();
-	float getUPosY();
+	////Getter and setter
+	//float getUPosX();
+	//float getUPosY();
 
-	void setUPosX(float f);
-	void setUPosY(float f);
+	//void setUPosX(float f);
+	//void setUPosY(float f);
 
-	float getUPosToX();
-	float getUPosToY();
+	//float getUPosToX();
+	//float getUPosToY();
 
-	void setUPosToX(float f);
-	void setUPosToY(float f);
+	//void setUPosToX(float f);
+	//void setUPosToY(float f);
 
-	float getUOffsetX();
-	float getUOffsetY();
+	//float getUOffsetX();
+	//float getUOffsetY();
 
-	void setUOffsetX(float f);
-	void setUOffsetY(float f);
+	//void setUOffsetX(float f);
+	//void setUOffsetY(float f);
 	
 	//float getIsMoving();
 
@@ -56,21 +58,21 @@ public:
 	//bool getPath();
 	//void setPath(bool b);
 
-	std::vector<Node> getVNode();
+	//std::vector<Node> getVNode();
 
 	void setSelected(bool b);
 
 	bool isInSelection(SDL_Rect r);
 
-	void attack(Unit& u);
+	void attack(GameObjectUnit & u);
 
-	void kill(Unit & u);
+	void kill(GameObjectUnit & u);
 
 	float randomFloat(float a, float b);
 
 	bool loadMediaUnit(SDL_Renderer * gRenderer);
 
-	bool loadMediaUnitEnemy(SDL_Renderer * gRenderer);
+	//bool loadMediaUnitEnemy(SDL_Renderer * gRenderer);
 
 	//void move(float timeStep);
 	//void moveEnemy(float timeStep);
@@ -80,16 +82,16 @@ public:
 	int getNodeX(int i);
 	int getNodeY(int i);
 
-	bool getPathFound();
-	void setPathFound(bool b);
+	//bool isPathFound();
+	//void isPathFound(bool b);
 	void clearPath();
 
 	void render(SDL_Renderer * gRenderer);
-	void renderEnemy(SDL_Renderer * gRenderer);
+	//void renderEnemy(SDL_Renderer * gRenderer);
 
 	void reset();
 
-	void resetEnemy();
+	//void resetEnemy();
 
 private:
 
@@ -122,7 +124,7 @@ private:
 
 	TilesArray tilesA;
 
-	bool isPathFound;
+	//bool PathFound;
 
 };
 

@@ -1,5 +1,5 @@
-#include "Unit.h"
-#include "Movement.h"
+//#include "Unit.h"
+#include "MovementUnit.h"
 
 #include <vector>
 
@@ -22,7 +22,7 @@ public:
 	std::vector<float> vUnitX;
 	std::vector<float> vUnitY;
 
-	std::vector<Unit> vEnemyUnit;
+	std::vector<UnitEnemy> vEnemyUnit;
 	std::vector<int> vEnemySelectedUnit;
 	std::vector<float> vEnemyUnitX;
 	std::vector<float> vEnemyUnitY;
@@ -57,6 +57,6 @@ public:
 
 private:
 	
-	Movement movement = Movement();
+	MovementUnit movement = MovementUnit();
 };
 

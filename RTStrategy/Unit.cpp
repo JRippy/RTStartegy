@@ -9,8 +9,8 @@ Unit::Unit()
 
 Unit::Unit(SDL_Renderer * gRenderer) :
 	isSelected(false),
-	isPathFound(false),
-	isDead(false)
+	isDead(false), 
+	GameObjectUnit(gRenderer)
 {
 	loadMediaUnit(gRenderer);
 	reset();
@@ -20,7 +20,8 @@ Unit::Unit(SDL_Renderer * gRenderer) :
 
 	setUOffsetX(0);
 	setUOffsetX(0);
-	//printf("Display on : %f %f\n", uPosX, uPosY);
+	isPathFound(false);
+	printf("Display Unit on : %f %f\n", uPosX, uPosY);
 
 	//movement = Movement();
 
@@ -32,117 +33,117 @@ Unit::Unit(SDL_Renderer * gRenderer) :
 	//toYUpdated = false;
 }
 
-Unit::Unit(SDL_Renderer * gRenderer, int enemy) :
-	isSelected(false),
-	isPathFound(false),
-	isDead(false)
-{
-	loadMediaUnitEnemy(gRenderer);
-	resetEnemy();
+//Unit::Unit(SDL_Renderer * gRenderer, int enemy) :
+//	isSelected(false),
+//	isPathFound(false),
+//	isDead(false)
+//{
+//	loadMediaUnitEnemy(gRenderer);
+//	resetEnemy();
+//
+//	//Set collision circle size
+//	mCollider.r = c.getUnitWidth() * 2;
+//
+//	//offSetX = randomFloat(-20, 20);
+//	//offSetY = randomFloat(-20,20);
+//	setUOffsetX(0);
+//	setUOffsetX(0);
+//	//printf("Display Enemy on : %f %f\n", uPosX, uPosY);
+//
+//	/*movement = Movement();*/
+//
+//	//tilesA = TilesArray();
+//
+//	//tilesA.load();
+//
+//	//toXUpdated = false;
+//	//toYUpdated = false;
+//}
 
-	//Set collision circle size
-	mCollider.r = c.getUnitWidth() * 2;
-
-	//offSetX = randomFloat(-20, 20);
-	//offSetY = randomFloat(-20,20);
-	setUOffsetX(0);
-	setUOffsetX(0);
-	//printf("Display Enemy on : %f %f\n", uPosX, uPosY);
-
-	/*movement = Movement();*/
-
-	//tilesA = TilesArray();
-
-	//tilesA.load();
-
-	//toXUpdated = false;
-	//toYUpdated = false;
-}
-
-float Unit::getUPosX()
-{
-	return uPosX;
-}
-
-float Unit::getUPosY()
-{
-	return uPosY;
-}
-
-void Unit::setUPosX(float f)
-{
-
-	if (uPosX >= c.getScreenWidth() - c.getUnitWidth())
-	{
-		uPosX = c.getScreenWidth() - c.getUnitWidth();
-	}
-	else {
-		uPosX = f;
-	}
-}
-
-void Unit::setUPosY(float f)
-{
-	if (uPosY >= c.getScreenWidth() - c.getUnitWidth())
-	{
-		uPosY = c.getScreenWidth() - c.getUnitWidth();
-	}
-	else {
-		uPosY = f;
-	}
-}
-
-float Unit::getUPosToX()
-{
-	return toX;
-}
-
-float Unit::getUPosToY()
-{
-	return toY;
-}
-
-void Unit::setUPosToX(float f)
-{
-	if (toX > c.getScreenWidth() - c.getUnitWidth())
-	{
-		toX = c.getScreenWidth() - c.getUnitWidth();
-	}
-	else {
-		toX = f;
-	}
-}
-
-void Unit::setUPosToY(float f)
-{
-	if (toY > c.getScreenHeight() - c.getUnitHeight())
-	{
-		toY = c.getScreenHeight() - c.getUnitHeight();
-	}
-	else {
-		toY = f;
-	}
-}
-
-float Unit::getUOffsetX()
-{
-	return offSetX;
-}
-
-float Unit::getUOffsetY()
-{
-	return offSetY;
-}
-
-void Unit::setUOffsetX(float f)
-{
-	offSetX = f;
-}
-
-void Unit::setUOffsetY(float f)
-{
-	offSetY = f;
-}
+//float Unit::getUPosX()
+//{
+//	return uPosX;
+//}
+//
+//float Unit::getUPosY()
+//{
+//	return uPosY;
+//}
+//
+//void Unit::setUPosX(float f)
+//{
+//
+//	if (uPosX >= c.getScreenWidth() - c.getUnitWidth())
+//	{
+//		uPosX = c.getScreenWidth() - c.getUnitWidth();
+//	}
+//	else {
+//		uPosX = f;
+//	}
+//}
+//
+//void Unit::setUPosY(float f)
+//{
+//	if (uPosY >= c.getScreenWidth() - c.getUnitWidth())
+//	{
+//		uPosY = c.getScreenWidth() - c.getUnitWidth();
+//	}
+//	else {
+//		uPosY = f;
+//	}
+//}
+//
+//float Unit::getUPosToX()
+//{
+//	return toX;
+//}
+//
+//float Unit::getUPosToY()
+//{
+//	return toY;
+//}
+//
+//void Unit::setUPosToX(float f)
+//{
+//	if (toX > c.getScreenWidth() - c.getUnitWidth())
+//	{
+//		toX = c.getScreenWidth() - c.getUnitWidth();
+//	}
+//	else {
+//		toX = f;
+//	}
+//}
+//
+//void Unit::setUPosToY(float f)
+//{
+//	if (toY > c.getScreenHeight() - c.getUnitHeight())
+//	{
+//		toY = c.getScreenHeight() - c.getUnitHeight();
+//	}
+//	else {
+//		toY = f;
+//	}
+//}
+//
+//float Unit::getUOffsetX()
+//{
+//	return offSetX;
+//}
+//
+//float Unit::getUOffsetY()
+//{
+//	return offSetY;
+//}
+//
+//void Unit::setUOffsetX(float f)
+//{
+//	offSetX = f;
+//}
+//
+//void Unit::setUOffsetY(float f)
+//{
+//	offSetY = f;
+//}
 
 float Unit::getSelected()
 {
@@ -222,11 +223,11 @@ double Unit::distanceSquared(int x1, int y1, int x2, int y2)
 //{
 //	movement.setPath(*this, b);
 //}
-
-std::vector<Node> Unit::getVNode()
-{
-	return pathNode;
-}
+//
+//std::vector<Node> Unit::getVNode()
+//{
+//	return pathNode;
+//}
 
 void Unit::setSelected(bool b)
 {
@@ -253,7 +254,7 @@ bool Unit::isInSelection(SDL_Rect r)
 	return b;
 }
 
-void Unit::attack(Unit& u)
+void Unit::attack(GameObjectUnit& u)
 {
 	//Closest point on collision box
 	int cX, cY;
@@ -286,14 +287,14 @@ void Unit::attack(Unit& u)
 	}
 }
 
-void Unit::kill(Unit& u)
+void Unit::kill(GameObjectUnit& u)
 {
-	if (!u.isDead)
+	if (!u.isUnitDead())
 	{
 		setUPosToX(u.getUPosX() + u.getUOffsetX());
 		setUPosToY(u.getUPosY() + u.getUOffsetY());
 
-		u.isDead = true;
+		u.setUnitDead(true);
 	}
 }
 
@@ -320,20 +321,20 @@ bool Unit::loadMediaUnit(SDL_Renderer * gRenderer)
 	return Loaded;
 }
 
-bool Unit::loadMediaUnitEnemy(SDL_Renderer * gRenderer)
-{
-	//Loading success flag
-	LoadedEnemy = true;
-
-	//Load Car texture
-	if (!unitEnemyTexture.loadFromFile("dot_Enemy.bmp", gRenderer))
-	{
-		printf("Failed to load dot enemy texture!\n");
-		LoadedEnemy = false;
-	}
-
-	return LoadedEnemy;
-}
+//bool Unit::loadMediaUnitEnemy(SDL_Renderer * gRenderer)
+//{
+//	//Loading success flag
+//	LoadedEnemy = true;
+//
+//	//Load Car texture
+//	if (!unitEnemyTexture.loadFromFile("dot_Enemy.bmp", gRenderer))
+//	{
+//		printf("Failed to load dot enemy texture!\n");
+//		LoadedEnemy = false;
+//	}
+//
+//	return LoadedEnemy;
+//}
 
 //void Unit::move(float timeStep)
 //{
@@ -344,7 +345,7 @@ bool Unit::loadMediaUnitEnemy(SDL_Renderer * gRenderer)
 //{
 //	movement.moveEnemy(*this, timeStep);
 //}
-
+//
 //
 //void Unit::move(float timeStep)
 //{
@@ -579,16 +580,16 @@ int Unit::getNodeY(int i)
 {
 	return pathNode[i].y;
 }
-
-bool Unit::getPathFound()
-{
-	return isPathFound;
-}
-
-void Unit::setPathFound(bool b)
-{
-	isPathFound = b;
-}
+//
+//bool Unit::isPathFound()
+//{
+//	return PathFound;
+//}
+//
+//void Unit::isPathFound(bool b)
+//{
+//	PathFound = b;
+//}
 
 void Unit::clearPath()
 {
@@ -619,51 +620,52 @@ void Unit::render(SDL_Renderer* gRenderer)
 	}
 
 	unitTexture.render((int)uPosX, (int)uPosY, gRenderer);
+	printf("Rendering Unit : X = %f| Y = %f\n", getUPosX(), getUPosY());
 
 }
 
-void Unit::renderEnemy(SDL_Renderer* gRenderer)
-{
-
-	if (!isDead)
-	{
-
-		if (!LoadedEnemy || !unitEnemyTexture.loadFromFile("dot_Enemy.bmp", gRenderer))
-		{
-			printf("Failed to load dot enemy texture!\n");
-		}
-	}
-	else
-	{
-		//LoadedDead = true;
-
-		//if (!LoadedDead || !unitEnemyTexture.loadFromFile("dot_Dead.bmp", gRenderer) )
-		if (!unitEnemyTexture.loadFromFile("dot_Dead.bmp", gRenderer) )
-		{
-			printf("Failed to load dot dead enemy texture!\n");
-			//LoadedDead = false;
-		}
-	}
-
-	if (getSelected() == true)
-	{
-		SDL_Rect lasso;
-
-		lasso.x = uPosX - 1;
-		lasso.y = uPosY - 1;
-		lasso.w = c.getUnitWidth() + 2;
-		lasso.h = c.getUnitHeight() + 2;
-
-		//printf("Lasso : %f, %f, %f, %f\n", xStart, yStart, xEnd, yEnd);
-
-		//Render rext
-		SDL_SetRenderDrawColor(gRenderer, 255, 255, 255, 255);
-		SDL_RenderDrawRect(gRenderer, &lasso);
-	}
-
-	unitEnemyTexture.render((int)uPosX, (int)uPosY, gRenderer);
-
-}
+//void Unit::renderEnemy(SDL_Renderer* gRenderer)
+//{
+//
+//	if (!isDead)
+//	{
+//
+//		if (!LoadedEnemy || !unitEnemyTexture.loadFromFile("dot_Enemy.bmp", gRenderer))
+//		{
+//			printf("Failed to load dot enemy texture!\n");
+//		}
+//	}
+//	else
+//	{
+//		//LoadedDead = true;
+//
+//		//if (!LoadedDead || !unitEnemyTexture.loadFromFile("dot_Dead.bmp", gRenderer) )
+//		if (!unitEnemyTexture.loadFromFile("dot_Dead.bmp", gRenderer) )
+//		{
+//			printf("Failed to load dot dead enemy texture!\n");
+//			//LoadedDead = false;
+//		}
+//	}
+//
+//	if (getSelected() == true)
+//	{
+//		SDL_Rect lasso;
+//
+//		lasso.x = uPosX - 1;
+//		lasso.y = uPosY - 1;
+//		lasso.w = c.getUnitWidth() + 2;
+//		lasso.h = c.getUnitHeight() + 2;
+//
+//		//printf("Lasso : %f, %f, %f, %f\n", xStart, yStart, xEnd, yEnd);
+//
+//		//Render rext
+//		SDL_SetRenderDrawColor(gRenderer, 255, 255, 255, 255);
+//		SDL_RenderDrawRect(gRenderer, &lasso);
+//	}
+//
+//	unitEnemyTexture.render((int)uPosX, (int)uPosY, gRenderer);
+//
+//}
 
 void Unit::reset()
 {
@@ -682,21 +684,21 @@ void Unit::reset()
 	setUOffsetX(0);
 	setUOffsetY(0);
 }
-
-void Unit::resetEnemy()
-{
-	float randX = randomFloat((float)c.getScreenWidth() * 3/ 4, (float)c.getScreenWidth());
-	float randY = randomFloat((float)c.getScreenHeight() * 3 / 4, (float)c.getScreenHeight());
-
-	setUPosX(randX);
-	setUPosY(randY);
-
-	uMidX = uPosX + c.getUnitWidth() / 2;
-	uMidY = uPosY + c.getUnitHeight() / 2;
-
-	setUPosToX(randX);
-	setUPosToY(randY);
-
-	setUOffsetX(0);
-	setUOffsetY(0);
-}
+//
+//void Unit::resetEnemy()
+//{
+//	float randX = randomFloat((float)c.getScreenWidth() * 3/ 4, (float)c.getScreenWidth());
+//	float randY = randomFloat((float)c.getScreenHeight() * 3 / 4, (float)c.getScreenHeight());
+//
+//	setUPosX(randX);
+//	setUPosY(randY);
+//
+//	uMidX = uPosX + c.getUnitWidth() / 2;
+//	uMidY = uPosY + c.getUnitHeight() / 2;
+//
+//	setUPosToX(randX);
+//	setUPosToY(randY);
+//
+//	setUOffsetX(0);
+//	setUOffsetY(0);
+//}

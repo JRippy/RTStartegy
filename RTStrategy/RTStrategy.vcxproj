@@ -158,8 +158,10 @@
     <ClInclude Include="Config.h" />
     <ClInclude Include="Cordinate.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="GameObjectUnit.h" />
     <ClInclude Include="Lasso.h" />
     <ClInclude Include="Movement.h" />
+    <ClInclude Include="MovementUnit.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="Texture.h" />
@@ -167,6 +169,7 @@
     <ClInclude Include="TilesArray.h" />
     <ClInclude Include="Timer.h" />
     <ClInclude Include="Unit.h" />
+    <ClInclude Include="UnitEnemy.h" />
     <ClInclude Include="UnitGroup.h" />
   </ItemGroup>
   <ItemGroup>
@@ -174,8 +177,10 @@
     <ClCompile Include="Config.cpp" />
     <ClCompile Include="Cordinate.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="GameObjectUnit.cpp" />
     <ClCompile Include="Lasso.cpp" />
     <ClCompile Include="Movement.cpp" />
+    <ClCompile Include="MovementUnit.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
@@ -188,6 +193,7 @@
     <ClCompile Include="TilesArray.cpp" />
     <ClCompile Include="Timer.cpp" />
     <ClCompile Include="Unit.cpp" />
+    <ClCompile Include="UnitEnemy.cpp" />
     <ClCompile Include="UnitGroup.cpp" />
   </ItemGroup>
   <ItemGroup>
