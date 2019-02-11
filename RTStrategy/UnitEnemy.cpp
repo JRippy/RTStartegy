@@ -67,8 +67,8 @@ void UnitEnemy::render(SDL_Renderer * gRenderer)
 	{
 		SDL_Rect lasso;
 
-		lasso.x = uPosX - 1;
-		lasso.y = uPosY - 1;
+		lasso.x = getUPosX() - 1;
+		lasso.y = getUPosY() - 1;
 		lasso.w = c.getUnitWidth() + 2;
 		lasso.h = c.getUnitHeight() + 2;
 
@@ -77,7 +77,7 @@ void UnitEnemy::render(SDL_Renderer * gRenderer)
 		SDL_RenderDrawRect(gRenderer, &lasso);
 	}
 
-	unitTexture.render((int)uPosX, (int)uPosY, gRenderer);
+	unitTexture.render((int)getUPosX(), (int)getUPosY(), gRenderer);
 }
 
 void UnitEnemy::reset()

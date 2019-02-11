@@ -63,13 +63,13 @@ void UnitGroup::render(SDL_Renderer * gRenderer)
 {
 	for (size_t i = 0; i < c.getNumUnit(); i++)
 	{
-		Unit u = vUnit[i];
+		Unit& u = vUnit[i];
 		u.render(gRenderer);
 	}
 
 	for (size_t i = 0; i < c.getNumUnitEnemy(); i++)
 	{
-		UnitEnemy uE = vEnemyUnit[i];
+		UnitEnemy& uE = vEnemyUnit[i];
 		uE.render(gRenderer);
 	}
 }

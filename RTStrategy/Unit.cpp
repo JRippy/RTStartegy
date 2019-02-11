@@ -580,16 +580,6 @@ int Unit::getNodeY(int i)
 {
 	return pathNode[i].y;
 }
-//
-//bool Unit::isPathFound()
-//{
-//	return PathFound;
-//}
-//
-//void Unit::isPathFound(bool b)
-//{
-//	PathFound = b;
-//}
 
 void Unit::clearPath()
 {
@@ -607,8 +597,8 @@ void Unit::render(SDL_Renderer* gRenderer)
 	{
 		SDL_Rect lasso;
 
-		lasso.x = uPosX - 1;
-		lasso.y = uPosY - 1;
+		lasso.x = getUPosX() - 1;
+		lasso.y = getUPosY() - 1;
 		lasso.w = c.getUnitWidth() + 2;
 		lasso.h = c.getUnitHeight() + 2;
 
@@ -619,53 +609,8 @@ void Unit::render(SDL_Renderer* gRenderer)
 		SDL_RenderDrawRect(gRenderer, &lasso);
 	}
 
-	unitTexture.render((int)uPosX, (int)uPosY, gRenderer);
-	printf("Rendering Unit : X = %f| Y = %f\n", getUPosX(), getUPosY());
-
+	unitTexture.render((int)getUPosX(), (int)getUPosY(), gRenderer);
 }
-
-//void Unit::renderEnemy(SDL_Renderer* gRenderer)
-//{
-//
-//	if (!isDead)
-//	{
-//
-//		if (!LoadedEnemy || !unitEnemyTexture.loadFromFile("dot_Enemy.bmp", gRenderer))
-//		{
-//			printf("Failed to load dot enemy texture!\n");
-//		}
-//	}
-//	else
-//	{
-//		//LoadedDead = true;
-//
-//		//if (!LoadedDead || !unitEnemyTexture.loadFromFile("dot_Dead.bmp", gRenderer) )
-//		if (!unitEnemyTexture.loadFromFile("dot_Dead.bmp", gRenderer) )
-//		{
-//			printf("Failed to load dot dead enemy texture!\n");
-//			//LoadedDead = false;
-//		}
-//	}
-//
-//	if (getSelected() == true)
-//	{
-//		SDL_Rect lasso;
-//
-//		lasso.x = uPosX - 1;
-//		lasso.y = uPosY - 1;
-//		lasso.w = c.getUnitWidth() + 2;
-//		lasso.h = c.getUnitHeight() + 2;
-//
-//		//printf("Lasso : %f, %f, %f, %f\n", xStart, yStart, xEnd, yEnd);
-//
-//		//Render rext
-//		SDL_SetRenderDrawColor(gRenderer, 255, 255, 255, 255);
-//		SDL_RenderDrawRect(gRenderer, &lasso);
-//	}
-//
-//	unitEnemyTexture.render((int)uPosX, (int)uPosY, gRenderer);
-//
-//}
 
 void Unit::reset()
 {
@@ -684,21 +629,3 @@ void Unit::reset()
 	setUOffsetX(0);
 	setUOffsetY(0);
 }
-//
-//void Unit::resetEnemy()
-//{
-//	float randX = randomFloat((float)c.getScreenWidth() * 3/ 4, (float)c.getScreenWidth());
-//	float randY = randomFloat((float)c.getScreenHeight() * 3 / 4, (float)c.getScreenHeight());
-//
-//	setUPosX(randX);
-//	setUPosY(randY);
-//
-//	uMidX = uPosX + c.getUnitWidth() / 2;
-//	uMidY = uPosY + c.getUnitHeight() / 2;
-//
-//	setUPosToX(randX);
-//	setUPosToY(randY);
-//
-//	setUOffsetX(0);
-//	setUOffsetY(0);
-//}

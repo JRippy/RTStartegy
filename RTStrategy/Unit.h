@@ -117,7 +117,7 @@ private:
 
 	//Texture
 	Texture unitTexture;
-	Texture unitEnemyTexture;
+	//Texture unitEnemyTexture;
 
 	//Unit's collision circle
 	Circle mCollider;
