@@ -48,7 +48,6 @@ void UnitGroup::load(SDL_Renderer* gRenderer)
 	for (size_t i = 0; i < c.getNumUnit(); i++)
 	{
 		Unit u = Unit(gRenderer);
-		printf("Unit i =  %i| X = %f| Y = %f\n", i, u.getUPosX(), u.getUPosY());
 		vUnit.push_back(u);
 	}	
 	
@@ -124,9 +123,9 @@ void UnitGroup::mousePress(SDL_MouseButtonEvent& b) {
 		float unitRow = floor(sqrt(numUnit + 2));
 		int numRow = numUnit / unitRow ;
 		int unitLastRow = numUnit % (int)unitRow;
-		printf("Num DOT by floor : %f \n", unitRow);
-		printf("Num Row : %d \n", numRow);
-		printf("Num dot Last line: %d \n\n", unitLastRow);
+		//printf("Num DOT by floor : %f \n", unitRow);
+		//printf("Num Row : %d \n", numRow);
+		//printf("Num dot Last line: %d \n\n", unitLastRow);
 
 		for (size_t i = 0; i < numRow; i++)
 		{
@@ -153,12 +152,12 @@ void UnitGroup::mousePress(SDL_MouseButtonEvent& b) {
 			Unit& u = vUnit[vSelectedUnit[i]];
 			if (u.getSelected())
 			{
-				u.setUPosToX(x);
-				u.setUPosToY(y);
+				u.setUDestinationX(x);
+				u.setUDestinationY(y);
 
 				//u.setUOffsetX(0);
 				//u.setUOffsetY(0);
-				printf("OffesetUG : X %f|| Y %f\n", vUnitX[i], vUnitY[i]);
+				//printf("OffesetUG : X %f|| Y %f\n", vUnitX[i], vUnitY[i]);
 
 				u.setUOffsetX((float)vUnitX[i]);
 				u.setUOffsetY((float)vUnitY[i]);
@@ -249,8 +248,8 @@ void UnitGroup::mousePressEnemy(SDL_MouseButtonEvent& b) {
 				UnitEnemy& u = vEnemyUnit[vEnemySelectedUnit[i]];
 				if (u.getSelected())
 				{
-					u.setUPosToX(x + (float)vEnemyUnitX[i]);
-					u.setUPosToY(y + (float)vEnemyUnitY[i]);
+					u.setUDestinationX(x + (float)vEnemyUnitX[i]);
+					u.setUDestinationY(y + (float)vEnemyUnitY[i]);
 				}
 
 			}

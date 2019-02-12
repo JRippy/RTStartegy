@@ -23,11 +23,11 @@ public:
 	void setUPosX(float f);
 	void setUPosY(float f);
 
-	float getUPosToX();
-	float getUPosToY();
+	float getUDestinationX();
+	float getUDestinationY();
 
-	void setUPosToX(float f);
-	void setUPosToY(float f);
+	void setUDestinationX(float f);
+	void setUDestinationY(float f);
 
 	float getUOffsetX();
 	float getUOffsetY();

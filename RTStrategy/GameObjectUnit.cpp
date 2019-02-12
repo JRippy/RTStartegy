@@ -82,17 +82,17 @@ void GameObjectUnit::setUPosY(float f)
 	}
 }
 
-float GameObjectUnit::getUPosToX()
+float GameObjectUnit::getUDestinationX()
 {
 	return toX;
 }
 
-float GameObjectUnit::getUPosToY()
+float GameObjectUnit::getUDestinationY()
 {
 	return toY;
 }
 
-void GameObjectUnit::setUPosToX(float f)
+void GameObjectUnit::setUDestinationX(float f)
 {
 	if (toX > c.getScreenWidth() - c.getUnitWidth())
 	{
@@ -103,7 +103,7 @@ void GameObjectUnit::setUPosToX(float f)
 	}
 }
 
-void GameObjectUnit::setUPosToY(float f)
+void GameObjectUnit::setUDestinationY(float f)
 {
 	if (toY > c.getScreenHeight() - c.getUnitHeight())
 	{

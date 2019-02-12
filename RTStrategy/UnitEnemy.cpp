@@ -21,7 +21,6 @@ UnitEnemy::UnitEnemy(SDL_Renderer * gRenderer):
 	setUOffsetX(0);
 	setUOffsetX(0);
 	isPathFound(false);
-	printf("Display Enemy on : %f %f\n", uPosX, uPosY);
 }
 
 
@@ -91,8 +90,8 @@ void UnitEnemy::reset()
 	uMidX = uPosX + c.getUnitWidth() / 2;
 	uMidY = uPosY + c.getUnitHeight() / 2;
 
-	setUPosToX(randX);
-	setUPosToY(randY);
+	setUDestinationX(randX);
+	setUDestinationY(randY);
 
 	setUOffsetX(0);
 	setUOffsetY(0);
