@@ -13,6 +13,15 @@ public:
 
 	//void setPath(Unit& unit, bool b);
 
+	void isXUpdated(bool b);
+	void isYUpdated(bool b);
+
+	bool isXUpdated();
+	bool isYUpdated();
+
+	void setStepTravel(int i);
+	int getStepTravel();
+
 	Node getNode(int i);
 
 	bool isPathFound(GameObjectUnit& unit);
@@ -41,7 +50,5 @@ private:
 	bool toXUpdated, toYUpdated;
 
 	TilesArray tilesA;
-
-	Cordinate cordinate;
 };
 

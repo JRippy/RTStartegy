@@ -9,6 +9,36 @@ MovementUnit::MovementUnit() :
 {
 }
 
+void MovementUnit::isXUpdated(bool b)
+{
+	toXUpdated = b;
+}
+
+void MovementUnit::isYUpdated(bool b)
+{
+	toYUpdated = b;
+}
+
+bool MovementUnit::isXUpdated()
+{
+	return toXUpdated;
+}
+
+bool MovementUnit::isYUpdated()
+{
+	return toYUpdated;
+}
+
+void MovementUnit::setStepTravel(int i)
+{
+	stepTravel = i;
+}
+
+int MovementUnit::getStepTravel()
+{
+	return stepTravel;
+}
+
 Node MovementUnit::getNode(int i)
 {
 	return pathNode[i];
@@ -53,36 +83,36 @@ void MovementUnit::move(Unit & unit, float timeStep)
 		}
 
 		unit.isPathFound(true);
-		stepTravel = 0;
+		setStepTravel(0);
 	}
 
-	if (stepTravel < pathNode.size() && pathNode.size() != 0)
+	if (getStepTravel() < pathNode.size() && pathNode.size() != 0)
 	{
 		//Not last Node
-		if (stepTravel != pathNode.size() - 1)
+		if (getStepTravel() != pathNode.size() - 1)
 		{
 			//Moe to middle of tile
-			//if (travel(unit, pathNode[stepTravel].x * c.getTileWidth() + c.getTileWidth() / 2, pathNode[stepTravel].y * c.getTileHeight() + c.getTileHeight() / 2))
+			//if (travel(unit, pathNode[getStepTravel()].x * c.getTileWidth() + c.getTileWidth() / 2, pathNode[getStepTravel()].y * c.getTileHeight() + c.getTileHeight() / 2))
 
 			//Move to Left up corner of Tile
-			//printf("Travel : %i, %i\n", pathNode[stepTravel].x * c.getTileWidth(), pathNode[stepTravel].y * c.getTileHeight());
-			if (travel(unit, pathNode[stepTravel].x * c.getTileWidth(), pathNode[stepTravel].y * c.getTileHeight()))
+			//printf("Travel : %i, %i\n", pathNode[getStepTravel()].x * c.getTileWidth(), pathNode[getStepTravel()].y * c.getTileHeight());
+			if (travel(unit, pathNode[getStepTravel()].x * c.getTileWidth(), pathNode[getStepTravel()].y * c.getTileHeight()))
 			{
-				printf("Path node X Y : %i, %i\n", pathNode[stepTravel].x, pathNode[stepTravel].y);
-				toXUpdated = false;
-				toYUpdated = false;
-				stepTravel++;
+				printf("Path node X Y : %i, %i\n", pathNode[getStepTravel()].x, pathNode[getStepTravel()].y);
+				isXUpdated(false);
+				isYUpdated(false);
+				setStepTravel(getStepTravel() + 1);
 			}
 		}
 		else
 		{
-			if (travel(unit, pathNode[stepTravel].x * c.getTileWidth(), pathNode[stepTravel].y * c.getTileHeight()))
+			if (travel(unit, pathNode[getStepTravel()].x * c.getTileWidth(), pathNode[getStepTravel()].y * c.getTileHeight()))
 			{
-				printf("Path last node X Y : %i, %i\n", pathNode[stepTravel].x, pathNode[stepTravel].y);
-				toXUpdated = false;
-				toYUpdated = false;
+				printf("Path last node X Y : %i, %i\n", pathNode[getStepTravel()].x, pathNode[getStepTravel()].y);
+				isXUpdated(false);
+				isYUpdated(false);
 				pathNode.clear();
-				stepTravel++;
+				setStepTravel(getStepTravel() + 1);
 			}
 		}
 
@@ -158,7 +188,7 @@ bool MovementUnit::travel(GameObjectUnit & unit, float x, float y)
 {
 	if (unit.getUPosX() != x + unit.getUOffsetX())
 	{
-		if (!toXUpdated)
+		if (!isXUpdated())
 		{
 			//printf("Befor Modif ToX : %f\n", toX);
 			//float tmpx = toX - ((int)(toX / c.getTileWidth()) * c.getTileWidth());
@@ -168,12 +198,12 @@ bool MovementUnit::travel(GameObjectUnit & unit, float x, float y)
 			printf("Path X : %f \nPath Y : %f\n", x, y);
 			printf("Update X \n");
 
-			if (unit.getUDestinationX() != x + unit.getUOffsetX())
-			{
+			//if (unit.getUDestinationX() != x + unit.getUOffsetX())
+			//{
 				unit.setUDestinationX(x + unit.getUOffsetX());
-			}
+			//}
 
-			toXUpdated = true;
+			isXUpdated(true);
 		}
 
 		float xAng = unit.getUDestinationX() - unit.getUPosX() + unit.getUOffsetX();
@@ -200,17 +230,15 @@ bool MovementUnit::travel(GameObjectUnit & unit, float x, float y)
 
 	if (unit.getUPosY() != y + unit.getUOffsetY())
 	{
-		if (!toYUpdated)
+		if (!isYUpdated())
 		{
-			float tmpy = unit.getUDestinationY() - ((unit.getUDestinationY() / c.getTileHeight()) * c.getTileHeight());
-
-			if (unit.getUDestinationY() != y + unit.getUOffsetY())
-			{
+			//if (unit.getUDestinationY() != y + unit.getUOffsetY())
+			//{
 				unit.setUDestinationY(y + unit.getUOffsetY());
 				printf("ToY : %f\nOffSetY : %f\n\n", unit.getUDestinationY(), unit.getUOffsetY());
-			}
+			//}
 
-			toYUpdated = true;
+			isYUpdated(true);
 		}
 
 		float xAng = unit.getUDestinationX() - unit.getUPosX() + unit.getUOffsetX();
